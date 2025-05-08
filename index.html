@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Applicant Information</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Lato", sans-serif;
+      }
+
+      .invalid {
+        border-color: red !important;
+      }
+
+      .error-message {
+        color: red;
+        display: none;
+      }
+
+      .form-step {
+        display: none;
+      }
+
+      .form-step.active {
+        display: block;
+      }
+
+      .dropzone {
+        border: 2px dashed #ccc;
+        border-radius: 0.5rem;
+        padding: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .dropzone.active {
+        border-color: #3b82f6;
+        background-color: #f0f7ff;
+      }
+
+      .pickr .pcr-button {
+        width: 100%;
+        height: 42px;
+        /* border-radius: 0.5rem; */
+        border: 1px solid #d1d5db;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-6xl">
+      <h2 class="text-2xl font-bold text-center text-blue-500">
+        Applicant Information
+      </h2>
+
+      <form id="applicantForm" class="mt-6" novalidate>
+        <!-- Step 1: Color and Logo -->
+        <div class="form-step active" id="step1">
+          <!-- <h3 class="text-xl font-semibold mb-4">Step 1: Branding</h3> -->
+
+          <h4 class="text-lg font-semibold mb-3">Select a Language</h4>
+          <!-- <div id="colorPicker" class="mb-4"></div> -->
+          <div class="flex justify-start mb-3">
+            <select
+              id="language-selector"
+              class="px-4 py-2 w-48 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="en">English</option>
+              <option value="fr">Franch</option>
+            </select>
+          </div>
+          <h4 class="text-lg font-semibold mb-3">Select a Colour</h4>
+          <div id="colorPicker" class="mb-4"></div>
+          <input type="hidden" id="selectedColor" name="color" required />
+          <div id="colorSelect-error" class="error-message">
+            Please select a color
+          </div>
+
+          <h4 class="text-lg font-semibold mb-3 pt-5">Logo Upload</h4>
+          <div
+            id="dropzone"
+            class="dropzone cursor-pointer"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+            ondrop="handleDrop(event)"
+          >
+            <div class="flex flex-col items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-12 w-12 text-gray-400 mb-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              <p class="text-gray-600 mb-1">Drag & drop your logo here</p>
+              <p class="text-gray-400 text-sm">or</p>
+              <button
+                type="button"
+                onclick="document.getElementById('fileInput').click()"
+                class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
+              >
+                Browse Files
+              </button>
+              <input
+                type="file"
+                id="fileInput"
+                class="hidden"
+                accept="image/*"
+              />
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-center">
+            <img
+              id="previewImage"
+              class="mt-2 rounded-lg max-h-40 hidden border border-gray-300 shadow-md"
+            />
+          </div>
+
+          <p id="uploadStatus" class="text-center text-sm mt-2"></p>
+          <p
+            id="uploadedUrl"
+            class="text-center text-sm mt-2 text-blue-500 hidden"
+          ></p>
+          <div id="fileInput-error" class="error-message text-center">
+            Please upload a logo
+          </div>
+
+          <div class="flex justify-end mt-6">
+            <button
+              type="button"
+              onclick="validateStep1()"
+              class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Applicant Information -->
+        <div class="form-step" id="step2">
+          <!-- <h3 class="text-xl font-semibold mb-4">
+            Step 2: Applicant Information
+          </h3> -->
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Email -->
+            <div>
+              <label for="email" class="block text-gray-700 font-medium"
+                >Applicant Email</label
+              >
+              <input
+                type="email"
+                required
+                id="email"
+                name="email"
+                placeholder="Enter email"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+              <div id="email-error" class="error-message">
+                Please enter a valid email address
+              </div>
+            </div>
+
+            <!-- Last Name -->
+            <div>
+              <label for="last-name" class="block text-gray-700 font-medium"
+                >Sumame (Last Name)</label
+              >
+              <input
+                type="text"
+                required
+                id="last-name"
+                name="last-name"
+                placeholder="Enter last name"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+              <div id="last-name-error" class="error-message">
+                Please enter your last name
+              </div>
+            </div>
+            <!-- First Name -->
+            <div>
+              <label for="first-name" class="block text-gray-700 font-medium"
+                >First Name</label
+              >
+              <input
+                type="text"
+                required
+                id="first-name"
+                name="first-name"
+                placeholder="Enter first name"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+              <div id="first-name-error" class="error-message">
+                Please enter your first name
+              </div>
+            </div>
+
+            <!-- Middle Name -->
+            <div>
+              <label for="middle-name" class="block text-gray-700 font-medium"
+                >Middle Name</label
+              >
+              <input
+                type="text"
+                id="middle-name"
+                name="middle-name"
+                placeholder="Enter middle name"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+            </div>
+
+            <!-- Telephone -->
+            <div>
+              <label for="telephone" class="block text-gray-700 font-medium"
+                >Telephone</label
+              >
+              <input
+                type="tel"
+                required
+                id="telephone"
+                name="telephone"
+                placeholder="Enter telephone number"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+              <div id="telephone-error" class="error-message">
+                Please enter your telephone number
+              </div>
+            </div>
+
+            <!-- Client Reference Number -->
+            <div>
+              <label
+                for="client-reference"
+                class="block text-gray-700 font-medium"
+                >Client Reference Number</label
+              >
+              <input
+                type="text"
+                id="client-reference"
+                name="client-reference"
+                placeholder="Enter reference number"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="mt-4">
+            <label for="additional-info" class="block text-gray-700 font-medium"
+              >Additional Processing Info</label
+            >
+            <textarea
+              id="additional-info"
+              name="additional-info"
+              rows="4"
+              placeholder="Write additional details"
+              class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            ></textarea>
+          </div>
+
+          <div class="flex justify-between mt-6">
+            <button
+              type="button"
+              onclick="prevStep('step2', 'step1')"
+              class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition duration-300"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              onclick="nextStep('step2', 'step3')"
+              class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Services Selection -->
+        <div class="form-step" id="step3">
+          <!-- <h3 class="text-xl font-semibold mb-4">Step 3: Services Selection</h3> -->
+
+          <div class="bg-gray-300 p-1 mt-3">
+            <p>
+              Services Selection
+              <span class="font-bold">Not for Vulnerable Sector</span>
+            </p>
+          </div>
+
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-b-2 border-black"
+          >
+            <div class="flex items-center mb-4"></div>
+            <div class="flex items-center mb-4">
+              <!-- <label for="agree" class="ml-2 text-gray-700"
+                >Hint for Applicant</label
+              > -->
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 pt-3">
+            <div class="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="police-checks"
+                name="services"
+                value="Police checks included"
+                class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+              />
+              <label for="police-checks" class="ml-2 text-gray-700"
+                >Police checks included</label
+              >
+            </div>
+            <div class="flex items-center mb-4">
+              <!-- <input
+                type="text"
+                name="police-checks-hint"
+                placeholder="Enter hint"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              /> -->
+            </div>
+
+            <div class="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="non-police-data-entry"
+                name="services"
+                value="Non-police service checks requiring some data entry included"
+                class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+              />
+              <label for="non-police-data-entry" class="ml-2 text-gray-700"
+                >Non-police service checks requiring some data entry
+                included</label
+              >
+            </div>
+            <div class="flex items-center mb-4">
+              <!-- <input
+                type="text"
+                name="non-police-data-entry-hint"
+                placeholder="Enter hint"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              /> -->
+            </div>
+
+            <div class="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="non-police-no-entry"
+                name="services"
+                value="Non-police service checks requiring no data entry included"
+                class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+              />
+              <label for="non-police-no-entry" class="ml-2 text-gray-700"
+                >Non-police service checks requiring no data entry
+                included</label
+              >
+            </div>
+            <div class="flex items-center mb-4">
+              <!-- <input
+                type="text"
+                name="non-police-no-entry-hint"
+                placeholder="Enter hint"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              /> -->
+            </div>
+
+            <div class="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="applicant-payment"
+                name="services"
+                value="Applicant makes payment"
+                class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+              />
+              <label for="applicant-payment" class="ml-2 text-gray-700"
+                >Applicant makes payment</label
+              >
+            </div>
+            <div class="flex items-center mb-4">
+              <!-- <input
+                type="text"
+                name="applicant-payment-hint"
+                placeholder="Enter hint"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              /> -->
+            </div>
+            <div class="flex items-center mb-4">
+              <input
+                type="checkbox"
+                id="applicant-consent"
+                name="services"
+                value="Applicant consent"
+                class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400"
+              />
+              <label for="applicant-consent" class="ml-2 text-gray-700"
+                >Applicant consent</label
+              >
+            </div>
+            <div class="flex items-center mb-4">
+              <!-- <input
+                type="text"
+                name="applicant-consent-hint"
+                placeholder="Enter hint"
+                class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              /> -->
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-6">
+            <button
+              type="button"
+              onclick="prevStep('step3', 'step2')"
+              class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition duration-300"
+            >
+              Previous
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+            >
+              Issue Invitation
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      const apiKey = "Au7r1pLf9TTGUmf9NmuXCz";
+      const client = filestack.init(apiKey);
+
+      // Initialize color picker
+      let pickr;
+      document.addEventListener("DOMContentLoaded", function () {
+        pickr = Pickr.create({
+          el: "#colorPicker",
+          theme: "classic",
+          default: "#3b82f6",
+          swatches: [
+            "#3b82f6",
+            "#ef4444",
+            "#10b981",
+            "#f59e0b",
+            "#6366f1",
+            "#ec4899",
+            "#000000",
+            "#ffffff",
+          ],
+          components: {
+            preview: true,
+            opacity: true,
+            hue: true,
+            interaction: {
+              hex: true,
+              rgba: true,
+              hsla: true,
+              hsva: true,
+              cmyk: true,
+              input: true,
+              clear: true,
+              save: true,
+            },
+          },
+        });
+
+        pickr.on("save", (color, instance) => {
+          const hexColor = color.toHEXA().toString();
+          document.getElementById("selectedColor").value = hexColor;
+          pickr.hide();
+        });
+      });
+      function validateStep1() {
+        let isValid = true;
+
+        // Validate color selection
+        const colorValue = document.getElementById("selectedColor").value;
+        if (!colorValue) {
+          document.getElementById("colorSelect-error").style.display = "block";
+          isValid = false;
+        } else {
+          document.getElementById("colorSelect-error").style.display = "none";
+        }
+
+        // Validate file upload
+        const fileInput = document.getElementById("fileInput");
+        if (!fileInput.files || fileInput.files.length === 0) {
+          document.getElementById("fileInput-error").style.display = "block";
+          isValid = false;
+        } else {
+          document.getElementById("fileInput-error").style.display = "none";
+        }
+
+        if (isValid) {
+          nextStep("step1", "step2");
+        }
+      }
+      // Drag and drop functions
+      function handleDragOver(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById("dropzone").classList.add("active");
+      }
+
+      function handleDragLeave(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById("dropzone").classList.remove("active");
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById("dropzone").classList.remove("active");
+
+        const files = e.dataTransfer.files;
+        if (files.length) {
+          document.getElementById("fileInput").files = files;
+          handleFileUpload(files[0]);
+        }
+      }
+
+      // File input change handler
+      document
+        .getElementById("fileInput")
+        .addEventListener("change", function (e) {
+          if (this.files && this.files[0]) {
+            handleFileUpload(this.files[0]);
+          }
+        });
+
+      function handleFileUpload(file) {
+        const previewImage = document.getElementById("previewImage");
+        const uploadStatus = document.getElementById("uploadStatus");
+        const uploadedUrl = document.getElementById("uploadedUrl");
+
+        // Show preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImage.src = e.target.result;
+          previewImage.classList.remove("hidden");
+        };
+        reader.readAsDataURL(file);
+
+        // Upload to filestack
+        uploadStatus.innerText = "⏳ Uploading...";
+        uploadStatus.className = "text-yellow-500 text-center text-sm";
+
+        client
+          .upload(file)
+          .then((response) => {
+            localStorage.setItem("logoUpload", response.url);
+            uploadStatus.innerText = "✅ Upload Successful!";
+            uploadStatus.className = "text-green-500 text-center text-sm";
+            uploadedUrl.innerText = "📎 " + response.url;
+            uploadedUrl.classList.remove("hidden");
+          })
+          .catch((error) => {
+            uploadStatus.innerText = "❌ Upload Failed!";
+            uploadStatus.className = "text-red-500 text-center text-sm";
+            console.error("Upload failed:", error);
+          });
+      }
+
+      function validateStep(stepId) {
+        let isValid = true;
+        const step = document.getElementById(stepId);
+        const requiredFields = step.querySelectorAll("[required]");
+
+        requiredFields.forEach((input) => {
+          if (!input.value.trim()) {
+            input.classList.add("invalid");
+            const errorElement = document.getElementById(`${input.id}-error`);
+            if (errorElement) errorElement.style.display = "block";
+            isValid = false;
+          }
+
+          if (input.id === "email" && input.value.trim()) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.value)) {
+              input.classList.add("invalid");
+              const errorElement = document.getElementById(`${input.id}-error`);
+              if (errorElement) errorElement.style.display = "block";
+              isValid = false;
+            }
+          }
+        });
+
+        return isValid;
+      }
+
+      function nextStep(currentStepId, nextStepId) {
+        if (!validateStep(currentStepId)) return;
+
+        document.getElementById(currentStepId).classList.remove("active");
+        document.getElementById(nextStepId).classList.add("active");
+      }
+
+      function prevStep(currentStepId, prevStepId) {
+        document.getElementById(currentStepId).classList.remove("active");
+        document.getElementById(prevStepId).classList.add("active");
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("applicantForm");
+        document
+          .getElementById("language-selector")
+          .addEventListener("change", (event) => {
+            const selectedLanguage = event.target.value;
+            console.log(selectedLanguage);
+          });
+        // Clear error when user starts typing
+        const requiredFields = form.querySelectorAll("[required]");
+        requiredFields.forEach((field) => {
+          field.addEventListener("input", function () {
+            if (this.value.trim() !== "") {
+              this.classList.remove("invalid");
+              const errorElement = document.getElementById(`${this.id}-error`);
+              if (errorElement) errorElement.style.display = "none";
+            }
+
+            if (this.id === "email" && this.value.trim() !== "") {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              if (!emailRegex.test(this.value)) {
+                this.classList.add("invalid");
+                const errorElement = document.getElementById(
+                  `${this.id}-error`
+                );
+                if (errorElement) errorElement.style.display = "block";
+              }
+            }
+          });
+        });
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          if (!validateStep("step3")) return;
+
+          const uploadedLogo = localStorage.getItem("logoUpload") || "";
+
+          // Collect form data
+          const formData = {
+            applicantInfo: {
+              email: form.email.value,
+              lastName: form["last-name"].value,
+              firstName: form["first-name"].value,
+              middleName: form["middle-name"].value,
+              telephone: form.telephone.value,
+              clientReference: form["client-reference"].value,
+              additionalInfo: form["additional-info"].value,
+            },
+            services: {
+              selectedServices: Array.from(
+                form.querySelectorAll('input[name="services"]:checked')
+              ).map((cb) => cb.value),
+            },
+            preferences: {
+              color: document.getElementById("selectedColor").value,
+              logo: uploadedLogo,
+              language: document.getElementById("language-selector").value,
+            },
+          };
+
+          // Store in localStorage
+          localStorage.setItem("applicantFormData", JSON.stringify(formData));
+          window.location.href = "acme.html";
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+/* styles.css */
+:root {
+  --next-button-color: #ef4444;
+  --next-button-hover-color: #dc2626;
+  --back-button-color: #9ca3af;
+  --back-button-hover-color: #6b7280;
+  --step-active-color: #ec141c;
+  --step-inactive-color: #bdc3c7;
+}
+.step-active {
+  background: linear-gradient(
+    to right,
+    var(--next-button-color),
+    var(--next-button-color)
+  );
+  color: white;
+}
+.step-inactive {
+  background: #e5e7eb;
+  color: var(--step-inactive-color);
+}
+.line-active {
+  background: linear-gradient(
+    to right,
+    var(--next-button-color),
+    var(--next-button-color)
+  );
+}
+
+.next-button {
+  background-color: var(--next-button-color);
+}
+.next-button:hover {
+  background-color: var(--next-button-hover-color);
+}
+.back {
+  background-color: var(--back-button-color);
+}
+.back:hover {
+  background-color: var(--back-button-hover-color);
+}

@@ -1,0 +1,3454 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <link
+      href="https://api.mapbox.com/mapbox-assembly/v1.3.0/assembly.min.css"
+    />
+    <link rel="stylesheet" href="styles.css">
+    <script
+      id="search-js"
+      defer
+      src="https://api.mapbox.com/search-js/v1.0.0-beta.25/web.js"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Acme</title>
+    <style>
+.text-gray-500 {
+  color: #6b7280; /* Gray color */
+}
+
+.text-green-500 {
+  color: #10b981; /* Green color */
+}
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.border-red-500 {
+  border-color: #ef4444; /* Red border for error */
+}
+
+.error-message {
+  color: #ef4444; /* Red text for error messages */
+}
+      /* Custom styling for invalid inputs */
+      .invalid {
+        border-color: red !important;
+      }
+      
+      .border-red-500 {
+        border-color: #f56565 !important;
+      }
+
+      .error-message {
+        color: #f56565;
+        font-size: 0.875rem;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+      #signatureCanvas {
+        border: 1px solid #000;
+        width: 300px;
+        height: 150px;
+      }
+      .container {
+        margin-top: 20px;
+      }
+      .buttons {
+        margin-top: 20px;
+      }
+      #signaturePreview {
+        margin-top: 20px;
+        border: 1px solid #000;
+        width: 300px;
+        height: 150px;
+      }
+      nav{
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .error-text {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    </style>
+    
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  </head>
+  <body>
+    <div class="max-w-6xl mx-auto py-5 px-5">
+      <nav class="bg-gray-200 shadow-sm w-full flex-row space-x-2">
+        <img id="navLogo" class="w-28 my-1 p-1" src="https://i.imghippo.com/files/d1912QA.png" alt="25x25 Image" />
+        <div>
+          <h4 class="font-bold" id="nameElement">ZAMAN, Mobin Mixed</h4>
+          <p>2007/01/01</p>
+        </div>
+      </nav>
+      <div
+        class="flex flex-wrap sm:flex-nowrap items-center justify-between mb-3"
+      >
+        <!-- Step 1 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-1"
+            class="step-active w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            1
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-">Biographic Details</p> -->
+        </div>
+        <!-- Line 1 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-1"
+        ></div>
+        <!-- Step 2 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-2"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            2
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Job Sector</p> -->
+        </div>
+        <!-- Line 2 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-2"
+        ></div>
+        <!-- Step 3 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-3"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            3
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Contact Info</p> -->
+        </div>
+        <!-- Line 3 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-3"
+        ></div>
+        <!-- Step 4 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-4"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            4
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Preferences</p> -->
+        </div>
+        <!-- Line 4 -->
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-4"
+        ></div>
+        <!-- Step 5 -->
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-5"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            5
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Confirmation</p> -->
+        </div>
+        <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-5"
+        ></div>
+        <div class="flex flex-col items-center mb-4 sm:mb-0">
+          <div
+            id="indicator-6"
+            class="step-inactive w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full font-bold text-sm sm:text-lg transition"
+          >
+            6
+          </div>
+          <!-- <p class="mt-2 text-xs sm:text-sm font-medium">Confirmation</p> -->
+        </div>
+        <!-- <div
+          class="flex-1 h-1 bg-gray-300 mx-2 line-inactive"
+          id="line-6"
+        ></div> -->
+      </div>
+      <div id="step-1" class="step">
+        <h2 class="text-2xl font-bold mb-6" id="biogr">Biographic Details</h2>
+
+        <!-- Error message container -->
+        <div id="error-message" class="text-red-600 mb-4 hidden">
+          <p class="font-medium text-center" id="general-error-message">
+            Please correct the highlighted fields in error.
+          </p>
+          <p
+            class="font-medium text-center hidden"
+            id="telephone-error-message"
+          >
+            * Telephone must be 10 digits.
+          </p>
+          <p class="font-medium text-center hidden" id="sex-error-message">
+            * Please select sex of applicant
+          </p>
+          <p class="font-medium text-center hidden" id="surname-error-message">
+            * Please enter your surname.
+          </p>
+          <p class="font-medium text-center hidden" id="firstName-error-message">
+            * Please enter your firstName.
+          </p>
+          <p class="font-medium text-center hidden" id="placeofbirth-error-message">
+            * Please enter your place of birth.
+          </p>
+          <p class="font-medium text-center hidden" id="emailaddress-error-message">
+            * Please enter your email Address.
+          </p>
+          <p class="font-medium text-center hidden" id="surnameatbirth-error-message">
+            * Please enter your Surname at birth.
+          </p>
+          <p class="font-medium text-center hidden" id="dob-error-message">
+            * Please enter your Date of Birth.
+          </p>
+          <p class="font-medium text-center hidden" id="formername-error-message">
+            * Please enter your Former name(s).
+          </p>
+          <p class="font-medium text-center hidden" id="middlename-error-message">
+            * Please enter your Middle Name.
+          </p>
+        </div>
+
+        <form id="form">
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="surname" class="block text-sm font-medium"
+                >Surname (last name):</label
+              >
+              <input
+                type="text"
+                id="surname"
+                placeholder="Surname"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+              
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="firstName" class="block text-sm font-medium"
+                >First Name:</label
+              >
+              <input
+                type="text"
+                id="firstName"
+                placeholder="First Name"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div id="middleNameContainer" class="sm:w-1/2 space-y-2">
+              <label for="middlename" class="block text-sm font-medium"
+                >Middle Name:</label
+              >
+              <input
+                type="text"
+                id="middlename"
+                placeholder="Middle Name:"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div id="SurnameContainer" class="sm:w-1/2 space-y-2" >
+              <label for="surnameatbirth" class="block text-sm font-medium"
+                >Surname at birth:</label
+              >
+              <input
+                type="text"
+                id="surnameatbirth"
+                required
+                placeholder="Surname at birth:"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          <div class="mb-4 sm:flex sm:space-x-4" id="checkList">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="formername" class="block text-sm font-medium"
+                >Former name(s):</label
+              >
+              <input
+                type="text"
+                id="formername"
+                placeholder="Former name"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="placeofbirth" class="block text-sm font-medium"
+                >Place of birth:
+              </label>
+              <input
+                type="text"
+                id="placeofbirth"
+                placeholder="Place of birth
+                "
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="dob" class="block text-sm font-medium"
+                >Date of Birth:</label
+              >
+              <input
+                type="date"
+                id="dob"
+                placeholder="yyyy-mm-dd"
+                class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="sex" class="block text-sm font-medium">Sex:</label>
+              <select
+                id="sex"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="" disabled selected>Please make a selection</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Not specified</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- New Sex Field -->
+
+          <!-- New Telephone Number Field -->
+          <div class="mb-4 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="telephone" class="block text-sm font-medium"
+                >Telephone:</label
+              >
+              <input
+                type="tel"
+                id="telephone"
+                placeholder="1234567890"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                pattern="^\d{10}$"
+                title="Telephone number must be 10 digits"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="emailaddress" class="block text-sm font-medium"
+                >Email Address:
+              </label>
+              <input
+                type="text"
+                id="emailaddress"
+                placeholder="Email Address
+                "
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+          </div>
+          <div class="my-2 flex-row items-center space-x-2 justify-center">
+            <a
+            id="addbutton"
+              class="text-green-600 rounded-md border border-green-600 font-medium py-1 px-1 hover:bg-green-600 hover:text-white transition inline-flex items-center cursor-pointer"
+              onclick="openModal()"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                class="w-4 h-4 mr-2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Add Address
+            </a>
+            <a
+            id="addressChange"
+              class="text-sm font-medium text-green-600"
+              style="cursor: pointer"
+              >Home Addresses for last 5 years</a
+            >
+            <div id="searchBoxMessage" class="text-red-600 text-sm mt-3 hidden">
+              Please add at least one address before proceeding.
+            </div>
+            <!-- Saved Address List -->
+            <div id="addressList" class="mt-6"></div>
+            <!-- <button
+              class="text-blue-500 hover:text-blue-700 underline"
+              onclick="openModal()"
+            >
+              Add or Edit Address
+            </button> -->
+          </div>
+
+          <!-- Modal -->
+
+          <div class="mt-6">
+            <button
+              type="button"
+              id="nextButton"
+              class="w-full text-white py-2 rounded-lg next-button"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-2" class="step hidden mb-4">
+        <h2 class="text-2xl font-bold my-6" id="dect">Declaration</h2>
+        <form id="step-2-form" onsubmit="return validateAndProceed1(event)">
+          <div class="mb-4">
+            <div>
+              <input
+                type="radio"
+                name="criminal-history"
+                id="option1"
+                value="no-criminal-history"
+                class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onclick="toggleCriminalHistory(false)"
+              />
+              <label for="option1" class="font-medium"
+                >No criminal history to declare</label
+              >
+            </div>
+            <div>
+              <input
+                type="radio"
+                name="criminal-history"
+                id="option2"
+                value="declare-criminal-history"
+                class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onclick="toggleCriminalHistory(true)"
+              />
+              <label for="option2" class="font-medium"
+                >Declare Criminal History</label
+              >
+            </div>
+          </div>
+          <div id="criminal-history" class="mt-4">
+            <h6 class="mb-2 text-sm">
+              The police background check services will report on criminal
+              record information. If you have a criminal record, you must
+              declare it so that the police check can confirm your information.
+              In this case, please select
+              <span class="font-medium">"Declare Criminal History"</span> above.
+
+              <br />
+              On the other hand, if you do not have a criminal record, please
+              select
+              <span class="font-medium">"No criminal history to declare" </span>
+              above and then click <span class="font-medium">"Next"</span>.
+            </h6>
+          </div>
+          <div id="criminal-history-details" class="hidden mt-4">
+            <h3 class="text-lg font-bold">Declaration of Criminal Record</h3>
+            <p class="text-sm mb-4">
+              Information is collected and disclosed in accordance with federal,
+              provincial, and municipal laws.
+              <br /><br />
+              A Declaration of Criminal Record does not constitute a Certified
+              Criminal Record by the RCMP and may not contain all criminal
+              record convictions.
+              <br /><br />
+              <strong>DO NOT DECLARE THE FOLLOWING:</strong><br />
+              - Absolute discharges or Conditional discharges, pursuant to the
+              Criminal Code, section 730.<br />
+              - Any charges for which you have received a Record Suspension
+              (Pardon), pursuant to the Criminal Records Act.<br />
+              - Any offences while you were a “young person” (twelve years old
+              but less than eighteen years old), pursuant to the Youth Criminal
+              Justice Act.<br />
+              - Any charges for which you were not convicted, for example,
+              charges that were withdrawn, dismissed, received a stay of
+              proceedings, etc.<br />
+              - Any provincial or municipal offences.<br />
+              - Any charges dealt with outside of Canada.
+            </p>
+
+            <div id="criminal-record-entries" class="space-y-4">
+              <div class="record-entry flex space-x-2">
+                <input
+                  required
+                  type="text"
+                  placeholder="Offence"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+               
+                <input
+                 required
+                  type="date"
+                  id="DeclareDate"
+                  placeholder="yyyy-mm"
+                  class="w-1/3 p-2 border rounded-lg datepicker"
+                />
+                 <p id="DeclareDate-error" class="error-message hidden text-red-500">This field is required.</p>
+                <input
+               required
+                  type="text"
+                  placeholder="Court Location"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+                <button
+                  type="button"
+                  class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                  onclick="removeRow(this)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="bg-green-500 text-white py-2 px-6 rounded hover:bg-green-600 mt-4"
+              onclick="addRow()"
+            >
+              Add Row
+            </button>
+          </div>
+
+          <div class="flex justify-between mt-6">
+            <button
+              type="button"
+              onclick="goToStep(1)"
+              class="back text-white py-2 px-6 rounded"
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              class="next-button text-white py-2 px-6 rounded "
+              id="next-1"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-3" class="step hidden">
+        <form id="step-3-form" onsubmit="return validateAndProceed(event)">
+          <h2 class="text-2xl font-bold my-3">
+            Please enter your details for the following services
+          </h2>
+          <h3 class="mb-2">
+            Click the EDIT button to provide information specific to that
+            service.
+          </h3>
+
+          <div class="accordion-item">
+          
+            <button
+            
+              type="button"
+              onclick="toggleAccordion(1)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >1: Consumer credit check - Report of caredit bureau</span
+                >
+                <div class="flex justify-between items-center ">
+                <svg    id="accordion-icon-1-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle mr-5 text-gray-500" viewBox="0 0 16 16">
+                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-1"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+              </div>
+            </button>
+            <div id="accordion-content-1" class="accordion-content">
+              <div class="pt-3">
+                <label for="socialInsuranceNumber" class="block mb-2"
+                  >Social Insurance Number:</label
+                >
+                <input
+                  required
+                  oninput="handleInput(this)"
+                  type="text"
+                  id="socialInsuranceNumber"
+                  placeholder="Social Insurance Number"
+                  class="w-full p-2 mb-2 border rounded"
+                />
+                <p
+                  id="socialInsuranceNumber-error"
+                  class="error-message hidden text-red-500 mb-2"
+                >
+                  
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 2 -->
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(2)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none rounded-lgw-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >2: Education/credential verification (Dhaka University)</span
+                >
+                <div class="flex justify-between items-center ">
+                  <svg id="accordion-icon-2-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle mr-5 text-gray-500" viewBox="0 0 16 16">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                  </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+                </div>
+              </div>
+            </button>
+            <div id="accordion-content-2" class="accordion-content p-4 hidden">
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="institutionType" class="block text-sm font-medium"
+                    >Institution Type:</label
+                  >
+                  <select
+                    required
+                    id="institutionType"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select</option>
+                    <option value="CdnPublic">
+                      Canadian Public Institution
+                    </option>
+                    <option value="CdnPrivate">
+                      Canadian Private Institution
+                    </option>
+                    <option value="Non-Cdn">Institution Outside Canada</option>
+                  </select>
+                  <p
+                    id="institutionType-error"
+                    class="error-message hidden text-red-500"
+                  >
+                    
+                  </p>
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label
+                    for="educationInstitution"
+                    class="block text-sm font-medium"
+                    >Education Institution:
+                  </label>
+                  <input
+                    required
+                    type="text"
+                    id="name"
+                    placeholder="Education Institution:
+                    "
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p
+                    id="educationInstitution-error"
+                    class="error-message hidden text-red-500"
+                  >
+                    
+                  </p>
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="location" class="block text-sm font-medium"
+                    >Location:</label
+                  >
+                  <input
+                    type="text"
+                    id="location"
+                    placeholder="Location"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="telephoneNumber" class="block text-sm font-medium"
+                    >Telephone Number:</label
+                  >
+                  <input
+                    type="text"
+                    id="telephoneNumber"
+                    placeholder="Telephone Number"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="studentNumber" class="block text-sm font-medium"
+                    >Student Number:</label
+                  >
+                  <input
+                    type="text"
+                    id="studentNumber"
+                    placeholder="Student Number"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="credential" class="block text-sm font-medium"
+                    >Credential(s):</label
+                  >
+                  <input
+                    required
+                    type="text"
+                    id="credential"
+                    placeholder="Credential(s)"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2">
+                <div class="space-y-2">
+                  <label
+                    for="credentialstatus"
+                    class="block text-sm font-medium"
+                    >Credential status:</label
+                  >
+                  <select
+                    required
+                    id="credentialstatus"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Active">Currently enrolled</option>
+                    <option value="Incomplete">Did not complete</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="fromDate20" class="block text-sm font-medium"
+                    >From:</label
+                  >
+                  <input
+                    required
+                    type="date"
+                    id="fromDate20"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="toDate20" class="block text-sm font-medium">To:</label>
+                  <input
+                    required
+                    type="date"
+                    id="toDate20"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(3)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none rounded-lgw-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >3: Employment - Verification (Certes Solutions Inc)</span
+                >
+                <div class="flex justify-between items-center ">
+                  <svg id="accordion-icon-3-check" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-circle mr-5 text-gray-500" viewBox="0 0 16 16">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                  </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-3"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+                </div>
+              </div>
+            </button>
+            <div id="accordion-content-3" class="accordion-content p-4 hidden">
+              <p>This is another section that can be expanded or collapsed.</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button
+              type="button"
+              onclick="toggleAccordion(4)"
+              class="w-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none rounded-lgw-full text-left p-2 bg-gray-700 text-white hover:bg-gray-600 focus:outline-none border rounded"
+            >
+              <div class="flex justify-between items-center">
+                <span class="font-semibold"
+                  >4: Employment - Reference (Ed Escubedo)</span
+                >
+                <div class="flex justify-between items-center ">
+                  <svg
+                  id="accordion-icon-4-check"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-check2-circle mr-5 text-gray-500"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0"/>
+                  <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  class="w-5 h-5 transition-transform duration-200 transform rotate-0 accordion-icon"
+                  id="accordion-icon-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+                </div>
+              </div>
+            </button>
+            <div id="accordion-content-4" class="accordion-content p-4 hidden">
+              <h6 class="text-red-500 font-semibold">
+                Please take care to supply accurate information, particularly
+                for the reference name, email address and telephone number.
+                Incorrect information can result in extensive delays.
+              </h6>
+              <h6 class="font-semibold mb-3">
+                Reference must be a former or current direct supervisor/manager.
+                A family member, co-worker or friend is not a suitable
+                reference.
+              </h6>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="Country100-4" class="block text-sm font-medium">Country:</label>
+                  <select
+                    id="sector100-4"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  >
+                    <!-- <option value="">Select a Country</option> -->
+                    <option value="Canada">Canada</option>
+                    <option value="Bangladesh">United States</option>
+                    <option value="other">Other (specify)</option>
+                  </select>
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="name100-4" class="block text-sm font-medium">Street Name:</label>
+                  <input
+                    type="text"
+                    id="name100-4"
+                    placeholder="Street name"
+                    required
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                  <!-- <p id="name100-4-error" class="error-message hidden text-red-500">This field is required.</p> -->
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="Apartment100-4" class="block text-sm font-medium">Apartment:</label>
+                  <input
+                    type="text"
+                    id="Apartment100-4"
+                    placeholder="Apartment"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="City100-4" class="block text-sm font-medium">City:</label>
+                  <input
+                    type="text"
+                    id="City100-4"
+                    placeholder="city"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="Province100-4" class="block text-sm font-medium">Province:</label>
+                  <input
+                    type="text"
+                    id="Province100-4"
+                    placeholder="Province"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="Postal100-4" class="block text-sm font-medium">Postal Code:</label>
+                  <input
+                    type="text"
+                    id="Postal100-4"
+                    placeholder="Postal Code"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div class="mb-4 space-y-2">
+                <label for="Street100-4" class="block text-sm font-medium">Street Number:</label>
+                <input
+                  required
+                  type="text"
+                  id="Street100-4"
+                  placeholder="Street Number"
+                  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+                <!-- <p id="Street100-4-error" class="error-message hidden text-red-500">This field is required.</p> -->
+              </div>
+            
+              <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="fromDate3" class="block text-sm font-medium">From:</label>
+                  <input
+                    type="date"
+                    id="fromDate3"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div class="sm:w-1/2 space-y-2">
+                  <label for="toDate3" class="block text-sm font-medium">To:</label>
+                  <input
+                    type="date"
+                    id="toDate3"
+                    placeholder="yyyy-mm"
+                    class="datepicker w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-3">
+            <button
+              type="button"
+              onclick="goToStep(2)"
+              class="back text-white py-2 px-6 rounded "
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              class=" text-white py-2 px-6 rounded next-button"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-4" class="step hidden">
+        <h2 class="text-2xl font-bold my-6">Waiver and Acknowledgement</h2>
+        <form id="step-4-form" onsubmit="return validateAndProceed4(event)">
+          <h6 class="bg-gray-900 p-1 rounded text-white">
+            REASON for Background Check
+          </h6>
+          <div class="mb-2 space-y-2 mt-2">
+            <label for="middleName" class="block text-sm font-medium"
+              >Reason for your request
+            </label>
+            <input
+              required
+              type="text"
+              id="middleName"
+              placeholder="Reason for your request"
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <h6 class="bg-gray-900 p-1 rounded text-white my-4">
+            AUTHORIZATION AND WAIVER to provide information obtained from a
+            background check
+          </h6>
+          <div class="my-4">
+            <input
+              type="checkbox"
+              required
+              id="option1"
+              value="option1"
+              class="p-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+            <label class="font-bold" for="option1"
+              >I certify that the information set out by me in this application
+              is true and correct to the best of my ability.</label
+            >
+          </div>
+          <div
+            onclick="openmyModal()"
+            class="border-black border rounded shadow-lg p-1 my-2 w-40"
+            style="cursor: pointer"
+          >
+            <a>Click to Sign Waiver</a>
+          </div>
+          <canvas id="signaturePreview" width="300" height="150"></canvas>
+          <p id="signatureError" class="text-red-500 text-sm mt-2 hidden">Please sign the waiver before proceeding.</p>
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="agreedby" class="block text-sm font-medium"
+                >Agreed by:</label
+              >
+              <input
+                required
+                type="text"
+                id="agreedby"
+                placeholder="Agreed at"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="agreedat" class="block text-sm font-medium"
+                >Agreed at:</label
+              >
+              <input
+                required
+                type="text"
+                id="agreedat"
+                placeholder="Agreed at"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div class="flex justify-between">
+            <button
+              type="button"
+              onclick="goToStep(3)"
+              class="back text-white py-2 px-6 rounded"
+            >
+              Back
+            </button>
+            <button
+              type="submit"
+              class="next-button text-white py-2 px-6 rounded "
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </div>
+      <div id="step-5" class="step hidden">
+        <h2 class="text-2xl font-bold my-6">Confirmation</h2>
+        <p class="text-md mb-6">
+          You have now completed the forms for your background check request,
+          and no changes will be permitted to your personal data from this point
+          forward. <br />
+          Please confirm you wish to proceed, or click "Back" if you want to
+          make any changes to your personal information.
+        </p>
+        <div class="flex justify-between">
+          <button
+            type="button"
+            onclick="goToStep(4)"
+            class="back text-white py-2 px-6 rounded"
+          >
+            Back 
+          </button>
+          <button
+            type="button"
+            onclick="goToStep(6)"
+            class="bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600"
+          >
+            Proceed to Process Request
+          </button>
+        </div>
+      </div>
+      <div id="step-6" class="step hidden">
+        <h2 class="text-2xl font-bold my-6">Manual Identity Verification</h2>
+        <p class="text-md mb-6">
+          An email has been sent requesting verification of your identity. It
+          has been sent to <br />
+          Canadian Bank Note Company <br />
+          Attn: Emilie Capowski, Contract Authority <br />Telephone:
+          613.722-3422 ext 6097 <br />Email: CBNhome@certec.ca <br />We have
+          asked them to help verify your identity, If they do not already have
+          copies of two pieces of your identification, they will be in touch to
+          request these from you.
+        </p>
+        <!-- <button onclick="goToStep(1)" class="bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600">
+          Start Again
+        </button> -->
+      </div>
+    </div>
+  
+    </div>
+    <div
+      id="addressModal"
+      class="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50 hidden"
+    >
+      <div class="bg-white rounded-lg p-6 sm:w-1/2 w-full max-h-[90%] overflow-y-auto">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4" id="modalTitle">
+          Home Address
+        </h2>
+        <div id="error-message" class="text-red-600 mb-4 hidden">
+          <p class="font-medium text-center" id="general-error-message">
+            Please correct the highlighted fields in error.
+          </p>
+        </div>
+        <form id="addressForm" >
+          <!-- Home Address 1 -->
+          <!-- <h6
+            class="font-medium rounded text-md bg-gray-900 text-white p-1 mb-2"
+          >
+            Home Address 1:
+          </h6> -->
+          <div class="mb-4 space-y-2">
+            <div class="space-y-2">
+              <label for="country1" class="block text-sm font-medium">Country:</label>
+              <select
+                required
+                id="country1"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              >
+                <!-- <option value="">Select a Country</option> -->
+                <option value="Canada">Canada</option>
+                <option value="United States">United States</option>
+                <option value="other">Other (specify)</option>
+              </select>
+            </div>
+            <div class="space-y-2 hidden" id="otherCountryInput">
+              <label for="otherCountry" class="block text-sm font-medium">Other Country:</label>
+              <input
+                type="text"
+                id="otherCountry"
+                placeholder="Other Country"
+                name="otherCountry"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+          
+        
+           <div class="mb-4 space-y-2" id="mapboxSearchContainer">
+            <mapbox-search-box
+            id="mapboxSearch"
+        access-token="pk.eyJ1IjoibW9iaW56YW1hbiIsImEiOiJjbTY5NWJoeGUwNm1jMm1zaGhrem82bzJiIn0.bIOBkMx34MuBQQK37nZ6hw"
+        proximity="0,0"
+        placeholder=" Search Address"
+      >
+      </mapbox-search-box>
+            <!-- <mapbox-address-autofill>
+              <input
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                name="address"
+                autocomplete="shipping address-line2"
+                placeholder=" Search Address"
+              />
+            </mapbox-address-autofill> -->
+          </div>
+          <div class="text-right"> <button type="button" id="toggleManualInput" class="text-blue-500 underline hidden">
+            Manually Enter Address
+          </button></div>
+         
+          <div id="manualAddressFields" class="hidden">
+           <div class="mb-4 space-y-2">
+            <label for="streetNumber1" class="block text-sm font-medium"
+              >Street Number:</label
+            >
+            <input
+              required
+              type="text"
+              id="streetNumber1"
+              placeholder="Street Number"
+              
+              class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div class="mb-4 space-y-2 " >
+            <!-- <label for="streetNumber1" class="block text-sm font-medium">Street Number:</label> -->
+            <label for="street1" class="block text-sm font-medium"
+            >Street Name:</label
+          >
+
+          <input
+            required
+            type="text"
+            id="street1"
+            placeholder="Street name"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+          </div>
+  
+          <div>
+            
+          </div>
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="apartment1" class="block text-sm font-medium"
+                >Apartment:</label
+              >
+              <input
+          
+                type="text"
+                id="apartment1"
+                autocomplete="shipping address-line1"
+                placeholder="Apartment"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="city1" class="block text-sm font-medium">City:</label>
+              <input
+                required
+                type="text"
+                id="city1"
+                autocomplete="shipping address-level2"
+                placeholder="City"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="province1" class="block text-sm font-medium"
+                >Province:</label
+              >
+              <input
+                required
+                type="text"
+                id="province1"
+                autocomplete="shipping address-level1"
+                placeholder="Province"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                
+              />
+            </div>
+
+            <div class="sm:w-1/2 space-y-2">
+              <label for="postal1" class="block text-sm font-medium"
+                >Postal Code:</label
+              >
+              <input
+                type="text"
+                id="postal1"
+                autocomplete="shipping postal-code"
+                placeholder="Postal Code"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                required
+               
+              />
+            </div>
+          </div>
+
+         
+          <div class="mb-4 space-y-2 sm:space-y-0 sm:flex sm:space-x-4">
+            <div class="sm:w-1/2 space-y-2">
+              <label for="fromDate1" class="datepicker block text-sm font-medium"
+                >From:</label
+              >
+              <input
+                required
+                type="date"
+                id="fromDate1"
+                placeholder="yyyy-mm"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                
+              />
+              <p id="fromDateError" class="text-red-500 text-sm hidden">Please enter a valid date.</p>
+            </div>
+            <div class="sm:w-1/2 space-y-2">
+              <label for="toDate1" class="datepicker block text-sm font-medium">To:</label>
+              <input
+                required
+                type="date"
+                id="toDate1"
+                placeholder="yyyy-mm"
+                class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+               
+              /> <p id="toDateError" class="text-red-500 text-sm hidden">Please enter a valid date.</p>
+            </div>
+          </div>
+        </div>
+        <p id="dateRangeError" class="text-red-500 text-sm hidden">The date range must be at least 5 years.</p>
+          <!-- Submit & Cancel Buttons -->
+          <div class="mt-4 flex justify-end space-x-2">
+            <button
+              type="button"
+              class="text-gray-600 bg-gray-200 px-4 py-2 rounded-md"
+             id="cancelButton"
+            >
+              Cancel
+            </button>
+            <button
+            id="saveButton"
+              type="submit"
+              
+              class="text-white bg-blue-500 px-4 py-2 rounded-md hidden"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div
+      id="myModal"
+      class="fixed inset-0 hidden bg-gray-900 bg-opacity-50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4">Authorization and Waiver</h2>
+        <p class="text-sm text-gray-700 mb-4">
+          I have engaged Investigative Solutions Network Inc. (the Service
+          Provider) to conduct the inquiries in connection with my application
+          for background check services. <br />
+          The information collected from me and about me will be kept strictly
+          confidential and will be obtained for and disclosed only to me or,
+          only upon my express consent or as may be required or permitted by
+          law.
+        </p>
+        <canvas id="signatureCanvas" width="300" height="150"></canvas>
+        <div class="flex justify-end mt-2">
+          <button id="saves"
+  onclick="saveSignature();"
+  class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-2"
+>
+  Save
+</button>
+
+          <button
+          id="clears"
+            onclick="clearCanvas()"
+            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-2"
+          >
+            Clear
+          </button>
+          <button
+          id="closes"
+            onclick="closemyModal()"
+            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function goToStep(step) {
+        document.querySelectorAll(".step").forEach((stepDiv) => {
+          stepDiv.classList.add("hidden");
+        });
+        document.getElementById(`step-${step}`).classList.remove("hidden");
+
+        // Update step indicators and lines
+        document
+          .querySelectorAll(".step-active, .step-inactive")
+          .forEach((indicator, index) => {
+            if (index + 1 <= step) {
+              indicator.classList.add("step-active");
+              indicator.classList.remove("step-inactive");
+            } else {
+              indicator.classList.add("step-inactive");
+              indicator.classList.remove("step-active");
+            }
+          });
+
+        document.querySelectorAll(".line-inactive").forEach((line, index) => {
+          if (index + 1 < step) {
+            line.classList.add("line-active");
+            line.classList.remove("bg-gray-300");
+          } else {
+            line.classList.add("bg-gray-300");
+            line.classList.remove("line-active");
+          }
+        });
+      }
+
+      const form = document.getElementById("form");
+      const formAddres = document.getElementById("addressForm");
+      const nextButton = document.getElementById("nextButton");
+      const errorMessageDiv = document.getElementById("error-message");
+      const generalErrorMessage = document.getElementById(
+        "general-error-message"
+      );
+      const telephoneErrorMessage = document.getElementById(
+        "telephone-error-message"
+      );
+      const sexErrorMessage = document.getElementById("sex-error-message");
+      flatpickr("#dob", {
+    dateFormat: "Y-m-d", 
+    defaultDate: "2007-01-01" 
+  });
+  //     flatpickr("#fromDate1", {
+  //   dateFormat: "Y-m", // yyyy/mm/dd format
+  // });
+  //     flatpickr("#toDate1", {
+  //   dateFormat: "Y-m", // yyyy/mm/dd format
+  // });
+      flatpickr("#fromDate20", {
+    dateFormat: "Y-m", // yyyy/mm/dd format
+  });
+      flatpickr("#toDate20", {
+    dateFormat: "Y-m", // yyyy/mm/dd format
+  });
+      flatpickr("#fromDate3", {
+    dateFormat: "Y-m", // yyyy/mm/dd format
+  });
+      flatpickr("#toDate3", {
+    dateFormat: "Y-m", // yyyy/mm/dd format
+  });
+      flatpickr("#DeclareDate", {
+    dateFormat: "Y-m", // yyyy/mm/dd format
+  });
+      // Function to validate the entire form
+      const validateForm = () => {
+        const inputs = document.querySelectorAll(
+          "#form input[required], #form select[required]"
+        );
+        let isGeneralValid = true;
+        let isTelephoneValid = true;
+        let isSexValid = true;
+        let isSurnameValid = true;
+        let isFirstNameValid = true;
+        let isPlaceOfBirthValid = true;
+        let isEmailValid = true;
+        let issurnameatbirth=true;
+        let isDobValid=true;
+        let isformername=true;
+        let ismiddlename=true;
+        // Validate general required fields (excluding telephone and sex)
+        inputs.forEach((input) => {
+          if (
+            input.id !== "middlename" &&
+            input.id !== "formername" &&
+            input.id !== "dob" &&
+            input.id !== "surnameatbirth" &&
+            input.id !== "telephone" &&
+            input.id !== "emailaddress" &&
+            input.id !== "sex" && 
+            input.id !== "surname" && input.id !== "firstName" &&input.id !== "placeofbirth"&&
+            !input.checkValidity()
+          ) {
+            isGeneralValid = false;
+            input.classList.add("invalid");
+          } else if (input.id !== "emailaddress" &&input.id !== "firstName" &&input.id !== "surname" && input.id !== "telephone" && input.id !== "sex"&&input.id !== "placeofbirth"&&input.id !== "surnameatbirth"&&input.id !== "dob"&&input.id !== "formername"&&input.id !== "middlename") {
+            input.classList.remove("invalid");
+          }
+        });
+
+        const emailAddressErrorMessage = document.getElementById("emailaddress-error-message");
+        const emailAddress = document.getElementById("emailaddress");
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(emailAddress.value.trim())) {
+    isEmailValid = false;
+    emailAddress.classList.add("invalid");
+    emailAddressErrorMessage.classList.remove("hidden");
+  } else {
+    emailAddress.classList.remove("invalid");
+    emailAddressErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const middlename = document.getElementById("middlename");
+  const middlenameErrorMessage = document.getElementById("middlename-error-message");
+  if (middlename.value.trim() === "") {
+    ismiddlename = false;
+    middlename.classList.add("invalid");
+    middlenameErrorMessage.classList.remove("hidden");
+  } else {
+    middlename.classList.remove("invalid");
+    middlenameErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const formername = document.getElementById("formername");
+  const formernameErrorMessage = document.getElementById("formername-error-message");
+  if (formername.value.trim() === "1") {
+    isformername = false;
+    formername.classList.add("invalid");
+    formernameErrorMessage.classList.remove("hidden");
+  } else {
+    formername.classList.remove("invalid");
+    formernameErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const firstName = document.getElementById("firstName");
+  const firstNameErrorMessage = document.getElementById("firstName-error-message");
+  if (firstName.value.trim() === "") {
+    isFirstNameValid = false;
+    firstName.classList.add("invalid");
+    firstNameErrorMessage.classList.remove("hidden");
+  } else {
+    firstName.classList.remove("invalid");
+    firstNameErrorMessage.classList.add("hidden");
+  }
+  // Validate the firstName field separately
+  const surnameatbirth = document.getElementById("surnameatbirth");
+  const surnameatbirthErrorMessage = document.getElementById("surnameatbirth-error-message");
+  if (surnameatbirth.value.trim() === "") {
+    issurnameatbirth = false;
+    surnameatbirth.classList.add("invalid");
+    surnameatbirthErrorMessage.classList.remove("hidden");
+  } else {
+    surnameatbirth.classList.remove("invalid");
+    surnameatbirthErrorMessage.classList.add("hidden");
+  }
+        // Validate the telephone field separately
+        const telephone = document.getElementById("telephone");
+        const telephoneValue = telephone.value;
+
+        if (telephoneValue.length !== 10 || !/^\d{10}$/.test(telephoneValue)) {
+          isTelephoneValid = false;
+          telephone.classList.add("invalid");
+          telephoneErrorMessage.classList.remove("hidden");
+        } else {
+          telephone.classList.remove("invalid");
+          telephoneErrorMessage.classList.add("hidden");
+        }
+
+  // Validate the surname field separately
+  const surname = document.getElementById("surname");
+  const surnameErrorMessage = document.getElementById("surname-error-message");
+  if (surname.value.trim() === "1") {
+    isSurnameValid = false;
+    surname.classList.add("invalid");
+    surnameErrorMessage.classList.remove("hidden");
+  } else {
+    surname.classList.remove("invalid");
+    surnameErrorMessage.classList.add("hidden");
+  }
+   // Validate the placeofbirth field separately
+   const placeofbirth = document.getElementById("placeofbirth");
+  const placeofbirthErrorMessage = document.getElementById("placeofbirth-error-message");
+  if (placeofbirth.value.trim() === "1") {
+    isPlaceOfBirthValid = false;
+    placeofbirth.classList.add("invalid");
+    placeofbirthErrorMessage.classList.remove("hidden");
+  } else {
+    placeofbirth.classList.remove("invalid");
+    placeofbirthErrorMessage.classList.add("hidden");
+  }
+        // Validate the sex field separately
+        const sex = document.getElementById("sex");
+        if (sex.value === "") {
+          isSexValid = false;
+          sex.classList.add("invalid");
+          sexErrorMessage.classList.remove("hidden");
+        } else {
+          sex.classList.remove("invalid");
+          sexErrorMessage.classList.add("hidden");
+        }
+        const dob = document.getElementById("dob");
+        const doberrormessage = document.getElementById("dob-error-message");
+        
+    if (!dob.value) {
+      isDobValid = false;
+      dob.classList.add("invalid");
+      doberrormessage.classList.remove("hidden");
+     
+    } else {
+      dob.classList.remove("invalid");
+      doberrormessage.classList.add("hidden");
+     
+    }
+        // Show or hide the general error message based on validation
+        if (!ismiddlename||!isformername||!isDobValid||!surnameatbirth||!isFirstNameValid ||!isGeneralValid || !isSexValid||!isSurnameValid||!isPlaceOfBirthValid||!isEmailValid) {
+          errorMessageDiv.classList.remove("hidden");
+          generalErrorMessage.classList.remove("hidden");
+        } else {
+          generalErrorMessage.classList.add("hidden");
+        }
+       
+        // Hide error message container if only telephone is invalid
+        if (ismiddlename&&isformername&&isDobValid&&surnameatbirth&&isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && !isTelephoneValid&& isSurnameValid&&isEmailValid) {
+          errorMessageDiv.classList.remove("hidden");
+        } else if (ismiddlename&&isformername&&isDobValid&&surnameatbirth&&isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isSexValid && isTelephoneValid&& isSurnameValid&&isEmailValid) {
+          errorMessageDiv.classList.add("hidden");
+        }
+
+        return ismiddlename&&isformername&&isDobValid&&surnameatbirth&&isPlaceOfBirthValid &&isFirstNameValid &&isGeneralValid && isTelephoneValid && isSexValid&& isSurnameValid&&isEmailValid;
+      };
+
+      window.onload = function () {
+        // Retrieve data from localStorage if available
+        const storedData = JSON.parse(localStorage.getItem("formData"));
+
+        if (storedData) {
+            // Set values from localStorage to the form fields
+            document.getElementById("surname").value = storedData.surname || "";
+            document.getElementById("firstName").value = storedData.firstName || "";
+            document.getElementById("telephone").value = storedData.telephone || "";
+            document.getElementById("emailaddress").value = storedData.emailaddress || "";
+            document.getElementById("dob").value = storedData.dob || "";
+        } else {
+            // If no data in localStorage, set default values
+            document.getElementById("surname").value = "ZAMAN";
+            document.getElementById("firstName").value = "Mobin Mixed";
+            document.getElementById("telephone").value = "9995551212";
+            document.getElementById("emailaddress").value = "Mobinzamandev@gmail.com";
+        }
+    };
+
+      // Event listener for the "Next" button
+      nextButton.addEventListener("click", () => {
+        if (validateForm()) {
+          const mapboxSearch = document.getElementById("mapboxSearch");
+    const searchBoxMessage = document.getElementById("searchBoxMessage");
+
+    if (mapboxSearch && mapboxSearch.value.trim() === "") {
+      // If the search box is empty, show the error message and prevent proceeding
+      searchBoxMessage.classList.remove("hidden"); // Show the message
+      mapboxSearch.classList.add("invalid"); // Highlight the search box in red
+      console.log("remove")
+      return; // Stop further execution
+    } else {
+      searchBoxMessage.classList.add("hidden"); // Hide the message
+      mapboxSearch.classList.remove("invalid"); // Remove the highlight
+      console.log("add")
+    }
+          const formData = {};
+          console.log(formData)
+          const fieldsToStore = ['dob', 'emailaddress', 'firstName', 'surname', 'telephone'];
+
+        fieldsToStore.forEach((fieldId) => {
+            const input = document.getElementById(fieldId);
+            if (input) {
+                formData[fieldId] = input.value.trim(); // Store the field value
+            }
+        });
+
+    localStorage.setItem("formData", JSON.stringify(formData));
+
+    // Save the updated data to localStorage
+
+// Update the navigation dynamically
+const navName = document.querySelector("nav h4");
+const navDob = document.querySelector("nav p");
+
+navName.textContent = `${formData.surname}, ${formData.firstName}`;
+navDob.textContent = formData.dob;
+const storedData = localStorage.getItem('applicantFormData');
+const formDatas = JSON.parse(storedData);
+if (formDatas.services.selectedServices.length === 1 &&
+formDatas.services.selectedServices.includes("Non-police service checks requiring some data entry included")){
+  goToStep(3);
+}
+else{
+  goToStep(2);  
+}
+
+        }
+      });
+
+      // Add real-time validation
+      form.addEventListener("input", () => {
+        validateForm();
+      });
+
+      // Keep invalid styling on blur for fields that remain invalid
+      form.addEventListener(
+        "blur",
+        (event) => {
+          const input = event.target;
+
+          if (!input.checkValidity()) {
+            input.classList.add("invalid");
+          }
+        },
+        true
+      );
+      // Function to load data from localStorage into the form
+
+  const savedData = JSON.parse(localStorage.getItem("formData"));
+console.log(savedData)
+  if (savedData) {
+    Object.entries(savedData).forEach(([key, value]) => {
+      const field = document.getElementById(key);
+      if (field) {
+        field.value = value;
+      }
+    });
+  }
+
+
+// Call this function whenever step 1 is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  // Check if we're on step 1 and load data
+  const currentStep = document.querySelector(".step.active"); // Assume "active" class indicates the visible step
+  if (currentStep && currentStep.id === "step-1") {
+    
+  }
+  const savedData = JSON.parse(localStorage.getItem("formData"));
+
+  if (savedData) {
+    // Populate form fields
+    Object.entries(savedData).forEach(([key, value]) => {
+      const field = document.getElementById(key);
+      if (field) {
+        field.value = value;
+      }
+    });
+
+    // Update navigation
+    const navName = document.querySelector("nav h4");
+    const navDob = document.querySelector("nav p");
+
+    if (savedData.surname && savedData.firstName) {
+      navName.textContent = `${savedData.surname}, ${savedData.firstName}`;
+    }
+    if (savedData.dob) {
+      navDob.textContent = savedData.dob;
+    }
+  }
+});
+
+const script = document.getElementById("search-js");
+script.onload = function () {
+  console.log("Mapbox Search JS script loaded successfully.");
+
+  // Select the MapboxSearchBox instance
+  const searchBox = document.querySelector("mapbox-search-box");
+
+  // Set initial options for the search box
+  searchBox.options = {
+    language: "en", // Change to "en" for English
+    country: "CA", // Initially set to Canada
+  };
+
+  // Select the country dropdown, other country input, and cancel button
+  const countryDropdown = document.getElementById("country1");
+  const otherCountryInput = document.getElementById("otherCountry");
+  const otherCountryInputContainer = document.getElementById("otherCountryInput");
+  const cancelButton = document.getElementById("cancelButton");
+
+  // Add an event listener to the dropdown
+  countryDropdown.addEventListener("change", function () {
+    const selectedCountry = countryDropdown.value;
+
+    if (selectedCountry === "Canada") {
+      searchBox.options.country = "CA"; // Set country to Canada
+    } else if (selectedCountry === "United States") {
+      searchBox.options.country = "US"; // Set country to United States
+    } else if (selectedCountry === "other") {
+      // Show the "Other Country" input field
+      otherCountryInputContainer.classList.remove("hidden");
+    }
+  });
+
+  // Add an event listener to the "Other Country" input
+  otherCountryInput.addEventListener("input", async function () {
+    const countryName = otherCountryInput.value.trim();
+
+    if (countryName) {
+      try {
+        // Fetch the Alpha-2 country code from the REST Countries API
+        const alpha2Code = await fetchAlpha2CountryCode(countryName);
+
+        if (alpha2Code) {
+          // Update the searchBox options with the fetched Alpha-2 code
+          searchBox.options.country = alpha2Code;
+          console.log(`Country code set to: ${alpha2Code}`);
+        } else {
+          console.error("Country not found or invalid input.");
+        }
+      } catch (error) {
+        console.error("Error fetching country code:", error);
+      }
+    }
+  });
+
+  // Add an event listener to the Cancel button
+  cancelButton.addEventListener("click", function () {
+    // Reset the dropdown to "Canada"
+    countryDropdown.value = "Canada";
+
+    // Clear the "Other Country" input field
+    otherCountryInput.value = "";
+
+    // Hide the "Other Country" input field
+    otherCountryInputContainer.classList.add("hidden");
+
+    // Reset the searchBox options to the initial value (Canada)
+    searchBox.options.country = "CA";
+
+    console.log("Selection reset to Canada.");
+  });
+
+  // Function to fetch Alpha-2 country code from REST Countries API
+  async function fetchAlpha2CountryCode(countryName) {
+    const apiUrl = `https://restcountries.com/v3.1/name/${countryName}?fullText=true`;
+
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error("Country not found");
+      }
+
+      const data = await response.json();
+      const alpha2Code = data[0]?.cca2; // Extract Alpha-2 code
+      return alpha2Code;
+    } catch (error) {
+      console.error("Error fetching country code:", error);
+      return null;
+    }
+  }
+
+  // Add an event listener to the "Other Country" input
+ 
+        // Add event listener for 'retrieve' event when a user selects an address
+        searchBox.addEventListener("retrieve", (e) => {
+          const feature = e.detail;
+          const data = feature.features[0].properties.context;
+          if (feature && feature.features && feature.features.length > 0) {
+            const data = feature.features[0].properties.context;
+            console.log(data);
+            function populateFields(data) {
+              // Set country
+              // document.querySelector("#country").value = data.country.name;
+
+              // Set postal code
+              document.querySelector("#postal1").value = data.postcode.name;
+
+              // Set city
+              document.querySelector("#city1").value = data.place.name;
+              document.querySelector("#province1").value =
+                data.region.region_code;
+
+              // Set street number and name
+              document.querySelector("#streetNumber1").value =
+                data.address.address_number;
+              document.querySelector("#street1").value =
+                data.address.street_name;
+
+              // Optionally, set province (if available in the data, or leave empty for now)
+              // document.querySelector("#province").value = data.province || "Enter province/state here";
+            }
+
+            // Populate fields when the script is loaded
+            populateFields(data);
+
+            // Check if selectedFeature is an array or an object with context
+          } else {
+            console.warn(
+              "No feature retrieved. Check your Mapbox token and configuration."
+            );
+          }
+        });
+      };
+
+      // Function to process the address components and set the form fields
+
+      // Fallback error handling if script fails to load
+      script.onerror = function () {
+        console.error("Failed to load Mapbox Search JS script.");
+      };
+
+      let addresses = [];
+      function openModal(addressIndex = null) {
+        const modal = document.getElementById("addressModal");
+        const form = document.getElementById("addressForm");
+        const modalTitle = document.getElementById("modalTitle");
+
+        // Reset the form
+        // form.reset();
+
+        // Show modal
+        modal.classList.remove("hidden");
+        const storedData = localStorage.getItem('applicantFormData');
+      const formData = JSON.parse(storedData);
+      const savedLanguage = formData?.preferences?.language || 'en'; 
+        // If editing, load the existing data into the form
+        if (addressIndex !== null) {
+          modalTitle.textContent = !savedLanguage==="fr"?"Edit Residential Address":"Modifier l'adresse résidentielle";
+          const address = addresses[addressIndex];
+          document.getElementById("country1").value = address.country;
+          document.getElementById("street1").value = address.street;
+          document.getElementById("apartment1").value = address.apartment;
+          document.getElementById("city1").value = address.city;
+          document.getElementById("province1").value = address.province;
+          document.getElementById("postal1").value = address.postalCode;
+          document.getElementById("streetNumber1").value = address.streetNumber;
+          document.getElementById("fromDate1").value = address.fromDate;
+          document.getElementById("toDate1").value = address.toDate;
+
+          // Update address when form is submitted
+          form.onsubmit = (e) => updateAddress(e, addressIndex);
+        } else {
+          const storedData = localStorage.getItem('applicantFormData');
+      const formData = JSON.parse(storedData);
+      const savedLanguage = formData?.preferences?.language || 'en'; 
+          modalTitle.textContent = !savedLanguage==='fr'?"Add Home Address":"Ajouter l'adresse du domicile";
+          form.onsubmit = (e) => addAddress(e);
+        }
+        
+      }
+
+      function closeModal() {
+        const modal = document.getElementById("addressModal");
+        modal.classList.add("hidden");
+      }
+
+      function openModal1() {
+        const modal = document.getElementById("addressModal1");
+        modal.classList.remove("hidden"); // Remove the "hidden" class to make it visible
+      }
+
+      function closeModal1() {
+        const modal = document.getElementById("addressModal1");
+        modal.classList.add("hidden"); // Add the "hidden" class to hide it
+      }
+
+      
+
+      function closeModal() {
+        const modal = document.getElementById("addressModal");
+        modal.classList.add("hidden");
+      }
+      function handleInput(selectElement) {
+      const otherInputDiv = document.getElementById('otherCountryInput');
+      const otherCountryInput = document.getElementById('otherCountry');
+
+      if (selectElement.value === 'other') {
+        // Show the "Other Country" input field
+        otherInputDiv.classList.add('hidden');
+      } else {
+        // Hide the input field and clear its value
+       
+        otherInputDiv.classList.remove('hidden');
+        otherCountryInput.value = '';
+      }
+    }
+
+
+
+      function addAddress(event) {
+        event.preventDefault();
+        const countrySelect = document.getElementById("country1");
+      const country = countrySelect.value === "other"
+        ? document.getElementById("otherCountry").value
+        : countrySelect.value;
+
+        const newAddress = {
+          country,
+          street: document.getElementById("street1").value,
+          apartment: document.getElementById("apartment1").value,
+          city: document.getElementById("city1").value,
+          province: document.getElementById("province1").value,
+          postalCode: document.getElementById("postal1").value,
+          streetNumber: document.getElementById("streetNumber1").value,
+          fromDate: document.getElementById("fromDate1").value,
+          toDate: document.getElementById("toDate1").value,
+        };
+
+        addresses.push(newAddress);
+        renderAddresses();
+        closeModal();
+        const searchBoxMessage = document.getElementById("searchBoxMessage");
+  searchBoxMessage.classList.add("hidden");
+  const mapboxSearch = document.getElementById("mapboxSearch");
+  mapboxSearch.classList.remove("invalid");
+      }
+
+      function updateAddress(event, index) {
+        event.preventDefault();
+      
+        const countrySelect = document.getElementById("country1");
+      const country = countrySelect.value === "other"
+        ? document.getElementById("otherCountry").value
+        : countrySelect.value;
+
+        const updatedAddress = {
+          country,
+          street: document.getElementById("street1").value,
+          apartment: document.getElementById("apartment1").value,
+          city: document.getElementById("city1").value,
+          province: document.getElementById("province1").value,
+          postalCode: document.getElementById("postal1").value,
+          streetNumber: document.getElementById("streetNumber1").value,
+          fromDate: document.getElementById("fromDate1").value,
+          toDate: document.getElementById("toDate1").value,
+        };
+
+        addresses[index] = updatedAddress;
+        renderAddresses();
+        closeModal();
+        const searchBoxMessage = document.getElementById("searchBoxMessage");
+  searchBoxMessage.classList.add("hidden");
+  console.log("fafasdasd")
+  const mapboxSearch = document.getElementById("mapboxSearch");
+  mapboxSearch.classList.remove("invalid");
+      }
+
+      function deleteAddress(index) {
+        addresses.splice(index, 1);
+        renderAddresses();
+        mapboxSearch.value = "";
+      }
+
+      function renderAddresses() {
+        const searchBoxMessage = document.getElementById("searchBoxMessage");
+//  searchBoxMessage.classList.remove("hidden");
+  // mapboxSearch.classList.add("invalid");
+
+        const addressList = document.getElementById("addressList");
+        addressList.innerHTML = ""; // Clear the list before rendering
+
+        addresses.forEach((address, index) => {
+          const listItem = document.createElement("div");
+
+          listItem.innerHTML = `
+ <div class="my-4">
+    <!-- Add Now Button -->
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="
+    cursor: pointer;" onclick="deleteAddress(${index})" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+  <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+  <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+</svg>
+
+    
+     <a onclick="openModal(${index})" class="underline mb-2" style="color: blue;
+    cursor: pointer;"> <h4 class="font-medium">${address.fromDate} - ${address.toDate} : #${address.apartment} ${address.streetNumber} , ${address.street} , ${address.city} , ${address.province} ${address.country === 'Canada' ? '' : `, ${address.country}`}</h4></a>
+    </div>
+
+`;
+
+          addressList.appendChild(listItem);
+          searchBoxMessage.classList.add("hidden");
+          
+        });
+      }
+      function validateProvince(input) {
+        const validProvinces = [
+          "NL",
+          "PE",
+          "NS",
+          "NB",
+          "QC",
+          "ON",
+          "MB",
+          "SK",
+          "AB",
+          "BC",
+          "YT",
+          "NT",
+          "NU",
+        ];
+
+        const errorElement = document.getElementById("provinceError");
+
+        // Check if the input matches any of the valid provinces
+        if (!validProvinces.includes(input.value.toUpperCase())) {
+          input.setCustomValidity(
+            "Please enter one of: NL, PE, NS, NB, QC, ON, MB, SK, AB, BC, YT, NT, NU"
+          );
+          errorElement.classList.remove("hidden");
+        } else {
+          input.setCustomValidity(""); // Clear custom validity if valid
+          errorElement.classList.add("hidden");
+        }
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+  // Initialize the date pickers using flatpickr
+  const fromDateInput = flatpickr("#fromDate1", {
+    dateFormat: "Y-m",
+    onChange: validateDates, // Trigger validation whenever date is changed
+  });
+
+  const toDateInput = flatpickr("#toDate1", {
+    dateFormat: "Y-m",
+    onChange: validateDates, // Trigger validation whenever date is changed
+  });
+
+  const saveButton = document.getElementById("saveButton");
+
+  // Initially, disable the Save button
+  // saveButton.disabled = true;
+
+  function validateDates() {
+    const fromDate = new Date(fromDateInput.selectedDates[0]);
+    const toDate = new Date(toDateInput.selectedDates[0]);
+    const today = new Date();
+
+    // Set the 'fiveYearsAgo' date to 5 years ago from today
+    const fiveYearsAgo = new Date();
+    fiveYearsAgo.setFullYear(today.getFullYear() - 5);
+    console.log(fiveYearsAgo);
+
+    // Validate only when both "From" and "To" dates are selected
+    if (fromDateInput.selectedDates.length > 0 && toDateInput.selectedDates.length > 0) {
+
+      // Validate 'From' date: it must be at least 5 years ago from today (not in the future)
+      if (fromDate < fiveYearsAgo) {
+        fromDateInput.input.setCustomValidity("The 'From' date must be within the last 5 years.");
+      } else {
+        fromDateInput.input.setCustomValidity("");
+      }
+
+      // Validate 'To' date: it must be within 5 years from today, and not in the future
+      if (toDate < fiveYearsAgo) {
+        toDateInput.input.setCustomValidity("The 'To' date must be within the last 5 years.");
+      } else {
+        toDateInput.input.setCustomValidity("");
+      }
+
+      // Enable Save button if both dates are valid
+    //   if (fromDateInput.input.checkValidity() && toDateInput.input.checkValidity()) {
+    //     saveButton.disabled = false;
+    //   } else {
+    //     saveButton.disabled = true;
+    //   }
+    // } else {
+    //   // If both dates are not selected, keep the Save button disabled
+    //   saveButton.disabled = true;
+     }
+  }
+
+  // Function to reset the form
+  function resetForm() {
+    // Reset the form
+    document.getElementById("addressForm").reset();
+
+    // Reset flatpickr date inputs
+    if (fromDateInput) fromDateInput.clear();
+    if (toDateInput) toDateInput.clear();
+
+    // Disable the Save button
+    // saveButton.disabled = true;
+  }
+
+  // Event listener for the "Add Address" button
+  const addButton = document.getElementById("addbutton");
+  if (addButton) {
+    addButton.addEventListener("click", function () {
+      // Reset the form when the "Add Address" button is clicked
+      resetForm();
+      
+      // Show the modal and hide other elements
+      document.getElementById("addressModal").classList.remove("hidden");
+      document.getElementById("manualAddressFields").classList.add("hidden");
+      document.getElementById("mapboxSearchContainer").classList.remove("hidden");
+      document.getElementById("toggleButton").classList.remove("hidden");
+      saveButton.classList.add("hidden");
+    });
+  }
+
+  // Event listener for the "Cancel" button (to reset the form as well)
+  const cancelButton = document.getElementById("cancelButton");
+  if (cancelButton) {
+    cancelButton.addEventListener("click", function () {
+      // Reset the form when the "Cancel" button is clicked
+      resetForm();
+
+      // Close the modal
+    
+      document.getElementById("addressModal").classList.add("hidden");
+    });
+  }
+
+});
+
+
+// Function to close the modal (if you have one)
+
+
+
+  // Handle form submission
+  const addressForm = document.getElementById("addressForm");
+  addressForm.addEventListener("submit", function (e) {
+    // Check if the save button is visible (i.e., form is valid)
+    if (saveButton.classList.contains("hidden")) {
+      e.preventDefault();  // Prevent form submission
+      alert("Please ensure both dates are valid before saving.");
+    }
+  });
+
+
+
+      // Toggle visibility of criminal history details based on selection
+      function toggleCriminalHistory(hasCriminalHistory) {
+        const criminalHistoryDetails = document.getElementById(
+          "criminal-history-details"
+        );
+        const criminalHistory = document.getElementById("criminal-history");
+        if (hasCriminalHistory) {
+          criminalHistoryDetails.classList.remove("hidden");
+          criminalHistory.classList.add("hidden");
+        } else {
+          criminalHistoryDetails.classList.add("hidden");
+          criminalHistory.classList.remove("hidden");
+        }
+      }
+
+      // Add a new row for criminal record entry
+      function addRow() {
+        const recordEntries = document.getElementById(
+          "criminal-record-entries"
+        );
+        const newRow = document.createElement("div");
+        newRow.classList.add("record-entry", "flex", "space-x-2");
+        newRow.innerHTML = `
+    <div id="criminal-record-entries"  style="width:100%">
+              <div class="record-entry flex space-x-2">
+                <input
+                  required
+                  type="text"
+                  placeholder="Offence"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+
+                 <input
+          required
+          type="text"
+          placeholder="yyyy-mm"
+          class="w-1/3 p-2 border rounded-lg datepicker"
+        />
+                <input
+               required
+                  type="text"
+                  placeholder="Court Location"
+                  class="w-1/3 p-2 border rounded-lg"
+                />
+                <button
+                  type="button"
+                  class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                  onclick="removeRow(this)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+   
+  `;
+        recordEntries.appendChild(newRow);
+        const dateInput = newRow.querySelector(".datepicker");
+  flatpickr(dateInput, {
+    dateFormat: "Y-m", // Set the date format to yyyy-mm
+    defaultDate: "", // Optional: Set default date to today
+  });
+      }
+
+      // Remove a criminal record entry row
+      function removeRow(button) {
+        const row = button.closest(".record-entry");
+        row.remove();
+      }
+
+      // Validate form and proceed to the next step
+      // function validateAndProceed1(event) {
+      //   event.preventDefault();
+
+      //   // Example validation (expand with your custom validation logic)
+      //   const selectedOption = document.querySelector(
+      //     'input[name="criminal-history"]:checked'
+      //   );
+
+      //   // Check if a radio button is selected
+      //   if (!selectedOption) {
+      //     alert("Please select your criminal history declaration.");
+      //     return false;
+      //   }
+
+      //   // If "No criminal history to declare" is selected, proceed to the next step
+      //   if (selectedOption.value === "no-criminal-history") {
+      //     goToStep(3); // Replace with your next step logic
+      //     return true;
+      //   }
+
+      //   // If "Declare Criminal History" is selected, check if details are provided
+      //   const criminalRecords = document.getElementById(
+      //     "criminal-record-entries"
+      //   ).children.length;
+      //   if (
+      //     selectedOption.value === "declare-criminal-history" &&
+      //     criminalRecords === 0
+      //   ) {
+      //     alert("Please add at least one criminal record entry.");
+      //     return false;
+      //   }
+
+      //   // Proceed to the next step if all validations pass
+      //   goToStep(3); // Replace with your next step logic
+      //   return true;
+      // }
+
+      // Go to a specific step in the form (e.g., step 3)
+
+      // step-3
+      function validateAndProceed(event) {
+        event.preventDefault();
+        let isValid = true;
+
+        // Select all required inputs in Step 3
+        const requiredFields = document.querySelectorAll(
+          "#step-3-form [required]"
+        );
+
+        requiredFields.forEach((field) => {
+          const errorElement = document.getElementById(`${field.id}-error`);
+          if (!field.value.trim()) {
+            field.classList.add("border-red-500");
+            if (errorElement) errorElement.classList.remove("hidden");
+            isValid = false;
+          } else {
+            field.classList.remove("border-red-500");
+            if (errorElement) errorElement.classList.add("hidden");
+          }
+        });
+
+        if (isValid) {
+          const storedData = localStorage.getItem('applicantFormData');
+const formDatas = JSON.parse(storedData);
+if (formDatas.services.selectedServices.length === 1 &&
+formDatas.services.selectedServices.includes("Non-police service checks requiring some data entry included")){
+  goToStep(2);  
+}
+else{
+  goToStep(4);
+}
+         
+        }
+      }
+
+
+
+
+      document.addEventListener("DOMContentLoaded", function () {
+  // Open the first accordion by default
+  toggleAccordion(1, true);
+
+  // Add event listeners to icons in each accordion
+  setupAccordion(1, 2); // From accordion 1 to accordion 2
+  setupAccordion(2, 3); // From accordion 2 to accordion 3
+  setupAccordion(3, 4); // From accordion 3 to accordion 4
+  setupAccordion(4, null);
+});
+
+function setupAccordion(currentIndex, nextIndex) {
+  const currentAccordionContent = document.getElementById(`accordion-content-${currentIndex}`);
+  const requiredFields = currentAccordionContent.querySelectorAll("input[required], select[required]");
+  const checkIcon = document.getElementById(`accordion-icon-${currentIndex}-check`);
+
+  // Add click event listener to the check icon
+  checkIcon.addEventListener("click", () => {
+    if (areAllRequiredFieldsFilled(requiredFields)) {
+      // Change the check icon color to green
+      checkIcon.classList.add("text-green-500");
+      checkIcon.classList.remove("text-gray-500");
+
+      // Close the current accordion
+      toggleAccordion(currentIndex, true); // Force close current accordion
+
+      // Open the next accordion
+      if (nextIndex !== null) {
+        toggleAccordion(nextIndex, true); // Force open next accordion
+      }
+    } else {
+      // Show an error if fields are not filled
+      toggleAccordion(currentIndex, false);
+      // Highlight empty required fields in red
+      highlightEmptyFields(requiredFields);
+
+      // Do not change the icon color or toggle the accordion
+    }
+  });
+}
+
+function areAllRequiredFieldsFilled(fields) {
+  return Array.from(fields).every((field) => field.value.trim() !== "");
+}
+
+function highlightEmptyFields(fields) {
+  fields.forEach((field) => {
+    if (field.value.trim() === "") {
+      // Add a red border to the empty field
+      field.classList.add("border-red-500");
+
+      // Show the error message below the field
+      const errorMessage = field.nextElementSibling;
+      if (errorMessage && errorMessage.classList.contains("error-message")) {
+        errorMessage.classList.remove("hidden");
+      }
+    }
+  });
+}
+
+function toggleAccordion(index, forceState) {
+  const content = document.getElementById(`accordion-content-${index}`);
+  const icon = document.getElementById(`accordion-icon-${index}`);
+
+  if (forceState === true) {
+    // Force open the accordion
+    content.classList.remove("hidden");
+    icon.classList.add("rotate-180");
+  } else if (forceState === false) {
+    // Force close the accordion
+    content.classList.add("hidden");
+    icon.classList.remove("rotate-180");
+  } else {
+    // Toggle the accordion (not used in this solution)
+    if (content.classList.contains("hidden")) {
+      content.classList.remove("hidden");
+      icon.classList.add("rotate-180");
+    } else {
+      content.classList.add("hidden");
+      icon.classList.remove("rotate-180");
+    }
+  }
+}
+
+function handleInput(input) {
+  // Remove error message and red border on input change
+  const errorElement = document.getElementById(`${input.id}-error`);
+  if (input.value.trim()) {
+    input.classList.remove("border-red-500");
+    if (errorElement) errorElement.classList.add("hidden");
+  }
+}
+      // Open the modal
+      function openmyModal() {
+        document.getElementById("myModal").classList.remove("hidden");
+      }
+
+      // Close the modal
+      function closemyModal() {
+        document.getElementById("myModal").classList.add("hidden");
+      }
+
+      // Initialize signature canvas
+     // Initialize canvas and context
+     const canvas = document.getElementById("signatureCanvas");
+      const ctx = canvas.getContext("2d");
+      let isDrawing = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      // Helper function to handle mouse and touch start
+      function startDrawing(e) {
+        isDrawing = true;
+        const { x, y } = getCoordinates(e);
+        lastX = x;
+        lastY = y;
+      }
+
+      // Helper function to handle mouse and touch move
+      function draw(e) {
+        if (!isDrawing) return;
+
+        const { x, y } = getCoordinates(e);
+        ctx.lineWidth = 2;
+        ctx.lineCap = "round";
+        ctx.strokeStyle = "black";
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+
+        lastX = x;
+        lastY = y;
+      }
+
+      // Helper function to handle mouse and touch end
+      function stopDrawing() {
+        isDrawing = false;
+        ctx.beginPath();
+      }
+
+      // Function to get coordinates based on event type (mouse or touch)
+      function getCoordinates(e) {
+        let x, y;
+        if (e.touches) {
+          // For touch events
+          x = e.touches[0].clientX - canvas.offsetLeft;
+          y = e.touches[0].clientY - canvas.offsetTop;
+        } else {
+          // For mouse events
+          x = e.clientX - canvas.offsetLeft;
+          y = e.clientY - canvas.offsetTop;
+        }
+        return { x, y };
+      }
+
+      // Attach event listeners for mouse and touch events
+      canvas.addEventListener("mousedown", startDrawing);
+      canvas.addEventListener("mousemove", draw);
+      canvas.addEventListener("mouseup", stopDrawing);
+      canvas.addEventListener("mouseout", stopDrawing);
+
+      canvas.addEventListener("touchstart", startDrawing);
+      canvas.addEventListener("touchmove", draw);
+      canvas.addEventListener("touchend", stopDrawing);
+      canvas.addEventListener("touchcancel", stopDrawing);
+
+      // Clear the canvas
+      function clearCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      // Save and show preview
+      function saveSignature() {
+        const signatureError = document.getElementById("signatureError");
+        const previewCanvas = document.getElementById("signaturePreview");
+        const previewCtx = previewCanvas.getContext("2d");
+        const imageData = canvas.toDataURL();
+        previewCtx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
+        const img = new Image();
+        img.src = imageData;
+        img.onload = function () {
+          previewCtx.drawImage(img, 0, 0);
+        };
+        signatureError.classList.add("hidden");
+        closeMyModal();
+      }
+      function closeMyModal() {
+    document.getElementById("myModal").style.display = "none";
+  }
+  function validateAndProceed4(event) {
+    event.preventDefault();
+
+    const middleName = document.getElementById("middleName").value.trim();
+    const agreedby = document.getElementById("agreedby").value.trim();
+    const agreedat = document.getElementById("agreedat").value.trim();
+    const signatureError = document.getElementById("signatureError");
+    // Check if required fields are filled
+    if (!middleName || !agreedby || !agreedat) {
+        alert("Please fill in all the required fields.");
+        return false;
+    }
+
+    // Check if the signature is present
+    let canvas = document.getElementById("signaturePreview");
+    let ctx = canvas.getContext("2d");
+    
+    let isCanvasBlank = !ctx.getImageData(0, 0, canvas.width, canvas.height)
+        .data.some(channel => channel !== 0);
+
+    if (isCanvasBlank) {
+      signatureError.classList.remove("hidden");
+        return false;
+    }
+
+    // Proceed to the next step if validation passes
+    goToStep(5);
+    return true;
+}
+
+
+  const provinceLabel = document.querySelector("label[for='province1']");
+  const postalLabel = document.querySelector("label[for='postal1']");
+  const provinceInput = document.getElementById("province1");
+  const postalInput = document.getElementById("postal1");
+  countrySelect.addEventListener("change", function () {
+    const selectedCountry = this.value;
+
+    if (selectedCountry === "United States") {
+      provinceLabel.textContent = "State:";
+      postalLabel.textContent = "Zip Code:";
+      provinceInput.placeholder = "State";
+      postalInput.placeholder = "Zip Code";
+      otherCountryInput.classList.add("hidden");
+    } else if (selectedCountry === "Canada") {
+      provinceLabel.textContent = "Province:";
+      postalLabel.textContent = "Postal Code:";
+      provinceInput.placeholder = "Province";
+      postalInput.placeholder = "Postal Code";
+      otherCountryInput.classList.add("hidden");
+    } else if (selectedCountry === "other") {
+      otherCountryInput.classList.remove("hidden");
+      provinceLabel.textContent = "State/Province:";
+      postalLabel.textContent = "Postal Code:";
+      provinceInput.placeholder = "State/Province";
+      postalInput.placeholder = "Postal Code";
+    } else {
+      otherCountryInput.classList.add("hidden");
+    }
+  });
+    </script>
+      <script>
+      const countrySelect = document.getElementById("country1");
+const otherCountryInput = document.getElementById("otherCountryInput");
+const toggleButton = document.getElementById("toggleManualInput");
+const manualFields = document.getElementById("manualAddressFields");
+const mapboxSearchContainer = document.getElementById("mapboxSearchContainer");
+const mapboxSearch = document.getElementById("mapboxSearch");
+const saveButton = document.getElementById("saveButton");
+const addbutton = document.getElementById("addbutton");
+const cancelButton = document.getElementById("cancelButton");
+const searchBox = document.getElementById("searchBox"); // সঠিকভাবে searchBox ডিফাইন করুন
+
+// Country selection event
+countrySelect.addEventListener("change", function () {
+  if (this.value === "other") {
+    otherCountryInput.classList.remove("hidden");
+  } else {
+    otherCountryInput.classList.add("hidden");
+  }
+});
+toggleButton.classList.remove("hidden");
+toggleButton.addEventListener("click", function () {
+  document.getElementById("manualAddressFields").classList.remove("hidden");
+  mapboxSearchContainer.classList.add("hidden");
+  saveButton.classList.remove("hidden");
+  toggleButton.classList.add("hidden");
+})
+document.getElementById("mapboxSearch").addEventListener("retrieve", function (event) {
+    const selectedAddress = event.detail;
+   
+    if (selectedAddress) {
+      document.getElementById("manualAddressFields").classList.remove("hidden");
+      mapboxSearchContainer.classList.add("hidden");
+      saveButton.classList.remove("hidden");
+      toggleButton.classList.add("hidden");
+    }
+  });
+  // // Close modal when cancel button is clicked
+cancelButton.addEventListener("click", function () {
+  document.getElementById("addressModal").classList.add("hidden");
+  document.getElementById("manualAddressFields").classList.add("hidden");
+  mapboxSearchContainer.classList.remove("hidden");
+  toggleButton.classList.remove("hidden");
+  saveButton.classList.add("hidden");
+});
+
+const addButton = document.getElementById("addbutton");
+
+addButton.addEventListener("click", function () {
+  document.getElementById("addressModal").classList.remove("hidden");
+  document.getElementById("manualAddressFields").classList.add("hidden");
+  document.getElementById("mapboxSearchContainer").classList.remove("hidden");
+  document.getElementById("toggleManualInput").classList.remove("hidden");
+  document.getElementById("saveButton").classList.add("hidden");
+
+  setTimeout(function () {
+    // Form Reset
+    const addressForm = document.getElementById("addressForm");
+    if (addressForm) {
+      addressForm.reset();
+      console.log("Form reset successfully!"); // Debugging
+    } else {
+      console.error("Form not found!");
+    }
+  }, 500);
+});
+
+
+
+
+// let isManual = false;
+
+// // Show the toggle button when the page loads
+// toggleButton.classList.remove("hidden");
+
+// toggleButton.addEventListener("click", function () {
+//   isManual = !isManual; // Toggle manual mode
+
+//   manualFields.classList.toggle("hidden");
+//   mapboxSearchContainer.classList.toggle("hidden"); // Corrected to mapboxSearchContainer
+
+//   toggleButton.textContent = isManual ? "Use Search Address" : "Manually Enter Address"; // Toggle text based on mode
+//   saveButton.textContent = "Save"; // Always show 'Save' text
+// });
+
+// // Auto switch to search when typing in the Mapbox search box & change Save button to Submit
+// mapboxSearch.addEventListener("keyup", function () {
+//   isManual = false;
+//   manualFields.classList.add("hidden");
+//   mapboxSearchContainer.classList.remove("hidden"); // Corrected to mapboxSearchContainer
+//   toggleButton.textContent = "Manually Enter Address";
+//   saveButton.textContent = "Submit";
+// });
+
+// // When Submit button is clicked, switch back to manual input but DO NOT close modal
+// saveButton.addEventListener("click", function (event) {
+//   event.preventDefault(); // Prevent closing the modal
+
+//   if (saveButton.textContent === "Submit") {
+//     isManual = true;
+//     manualFields.classList.remove("hidden");
+//     mapboxSearchContainer.classList.add("hidden"); // Corrected
+//     toggleButton.textContent = "Use Search Address"; // Change button text back
+//     saveButton.textContent = "Save";
+//   }
+// });
+
+
+      </script>
+     
+      <script>
+   document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("addressForm");
+  const saveButton = document.getElementById("saveButton");
+  const cancelButton = document.getElementById("cancelButton");
+  const modal = document.getElementById("yourModalId"); // Replace with your modal ID
+  const fromDateInput = document.getElementById("fromDate1");
+  const toDateInput = document.getElementById("toDate1");
+  const inputs = form.querySelectorAll("input[required]");
+  const errors = {
+    fromDateError: document.getElementById("fromDateError"),
+    toDateError: document.getElementById("toDateError"),
+    dateRangeError: document.getElementById("dateRangeError"),
+  };
+
+  function clearValidationErrors() {
+    inputs.forEach((input) => {
+      input.classList.remove("border-red-500");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg && errorMsg.classList.contains("text-red-500")) {
+        errorMsg.classList.add("hidden");
+      }
+    });
+
+    // Hide date range error
+    errors.dateRangeError.classList.add("hidden");
+  }
+
+  function validateForm() {
+    let isValid = true;
+    clearValidationErrors(); // Reset previous errors
+
+    // Validate all required fields
+    inputs.forEach((input) => {
+      if (!input.value.trim()) {
+        input.classList.add("border-red-500");
+        const errorMsg = input.nextElementSibling;
+        if (errorMsg && errorMsg.classList.contains("text-red-500")) {
+          errorMsg.classList.remove("hidden");
+        }
+        isValid = false;
+      }
+    });
+
+    // Validate Date Range
+    const fromDate = new Date(fromDateInput.value);
+    const toDate = new Date(toDateInput.value);
+
+    if (fromDateInput.value && toDateInput.value) {
+      const yearDiff = toDate.getFullYear() - fromDate.getFullYear();
+      const monthDiff = toDate.getMonth() - fromDate.getMonth();
+      const totalMonths = yearDiff * 12 + monthDiff;
+
+      if (totalMonths < 60) {
+        fromDateInput.classList.add("border-red-500");
+        toDateInput.classList.add("border-red-500");
+        errors.dateRangeError.classList.remove("hidden");
+        isValid = false;
+      }
+    }
+
+    return isValid;
+  }
+
+  // Show validation errors when clicking Save
+  saveButton.addEventListener("click", function (event) {
+    if (!validateForm()) {
+      event.preventDefault(); // Prevent form submission if validation fails
+    }
+  });
+
+  // Live validation when typing
+  inputs.forEach((input) => {
+    input.addEventListener("input", function () {
+      input.classList.remove("border-red-500");
+      const errorMsg = input.nextElementSibling;
+      if (errorMsg && errorMsg.classList.contains("text-red-500")) {
+        errorMsg.classList.add("hidden");
+      }
+    });
+  });
+
+  // Reset form and validation when clicking Cancel
+  cancelButton.addEventListener("click", function () {
+    form.reset();
+    clearValidationErrors();
+  });
+
+  // Ensure validation is cleared when modal opens
+  modal.addEventListener("show", function () {
+    form.reset();
+    clearValidationErrors();
+  });
+});
+
+// Declaration
+
+document.addEventListener("DOMContentLoaded", function () {
+  const declareCriminalHistory = document.getElementById("option2");
+  const noCriminalHistory = document.getElementById("option1");
+  const criminalHistoryDetails = document.getElementById("criminal-history-details");
+  const form = document.getElementById("step-2-form");
+
+  // Function to toggle the visibility of the criminal history details
+  function toggleCriminalHistory(show) {
+    if (show) {
+      criminalHistoryDetails.classList.remove("hidden");
+
+      // Enable required attribute for fields
+      criminalHistoryDetails.querySelectorAll("input").forEach(input => {
+        input.setAttribute("required", "true");
+      });
+    } else {
+      criminalHistoryDetails.classList.add("hidden");
+
+      // Remove required attribute for fields
+      criminalHistoryDetails.querySelectorAll("input").forEach(input => {
+        input.removeAttribute("required");
+      });
+    }
+  }
+
+  // Function to validate and proceed to the next step
+  function validateAndProceed1(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Check if "Declare Criminal History" is selected
+    if (declareCriminalHistory.checked) {
+      // If "Declare Criminal History" is selected, validate required fields
+      const requiredFields = criminalHistoryDetails.querySelectorAll("input[required]");
+      let isValid = true;
+
+      requiredFields.forEach(input => {
+        const DeclareDatemessage = document.getElementById("DeclareDate-error");
+       
+        if (!input.value.trim()) {
+          input.classList.add("border-red-500"); 
+          // Add red border for empty fields
+          DeclareDatemessage.classList.remove("hidden");
+          isValid = false;
+        } else {
+          DeclareDatemessage.classList.remove("hidden");
+          input.classList.remove("border-red-500"); // Remove red border if input is filled
+        }
+      });
+
+      // If any required field is invalid, stop form submission and alert the user
+      if (!isValid) {
+        
+        // alert("Please fill in all required fields before proceeding.");
+        return false;
+      }
+    }
+
+    // If "No criminal history to declare" is selected, proceed directly to the next step
+    if (noCriminalHistory.checked) {
+      const storedData = localStorage.getItem('applicantFormData');
+const formDatas = JSON.parse(storedData);
+if (formDatas.services.selectedServices.length === 1 &&
+formDatas.services.selectedServices.includes("Non-police service checks requiring some data entry included")){
+  goToStep(4);  
+}
+else{
+  goToStep(3);
+}
+      // goToStep(3); // Go to step 3 without form submission
+      return true; // Prevent form submission here
+    }
+    goToStep(3);
+    // If everything is validated successfully, proceed to the next step
+    return true; 
+  }
+
+  // Attach event listeners
+  noCriminalHistory.addEventListener("click", () => toggleCriminalHistory(false));
+  declareCriminalHistory.addEventListener("click", () => toggleCriminalHistory(true));
+
+  // Attach submit event to the form
+  form.addEventListener("submit", validateAndProceed1);
+});
+
+
+      </script>
+       <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // Default logo URL - using a reliable placeholder
+          const defaultLogo = "https://i.imghippo.com/files/d1912QA.png";
+          const navLogo = document.getElementById('navLogo');
+          
+          // Set default logo immediately (fallback while checking)
+          navLogo.src = defaultLogo;
+          navLogo.alt = "Default Logo";
+          navLogo.onerror = function() {
+            this.src = defaultLogo;
+            this.alt = "Fallback Logo";
+          };
+          
+          try {
+            // Retrieve stored form data
+            const storedData = localStorage.getItem('applicantFormData');
+             const middleNameContainer = document.getElementById("middleNameContainer");
+             const SurnameContainer = document.getElementById("SurnameContainer");
+             const addressChangeElement = document.getElementById("addressChange");
+
+            if (storedData) {
+              const formData = JSON.parse(storedData);
+              console.log(formData.preferences.color)
+              const buttonColor = formData.preferences.color;
+              document.documentElement.style.setProperty('--next-button-color', buttonColor);
+              document.documentElement.style.setProperty('--next-button-hover-color', buttonColor);
+              if (formData.services.selectedServices.length === 1 &&
+              formData.services.selectedServices.includes("Non-police service checks requiring some data entry included")) {
+              document.getElementById("checkList").classList.add("hidden"); 
+               middleNameContainer.classList.remove("sm:w-1/2");
+               middleNameContainer.classList.add("w-full"); // Hide the field
+               SurnameContainer.classList.add("hidden")
+               addressChangeElement.textContent = "Current Home Address";
+          } else {
+            middleNameContainer.classList.add("sm:w-1/2");
+            middleNameContainer.classList.remove("w-full"); 
+            SurnameContainer.classList.remove("hidden")
+            addressChangeElement.textContent = "Home Addresses for last 5 years";
+              document.getElementById("checkList").classList.remove("hidden"); // Show the field
+          }
+              // Update logo if available in preferences
+              if (formData.preferences?.logo) {
+                // Create new image to test if it loads
+                const testImg = new Image();
+                testImg.src = formData.preferences.logo;
+                
+                testImg.onload = function() {
+                  navLogo.src = formData.preferences.logo;
+                  console.log('Logo successfully updated');
+                };
+                
+                testImg.onerror = function() {
+                  console.warn('Custom logo failed to load, using default');
+                  navLogo.src = defaultLogo;
+                };
+              }
+            }
+          } catch (error) {
+            console.error('Error processing applicant data:', error);
+          }
+        });
+
+          // On page load, apply saved language
+    document.addEventListener('DOMContentLoaded', () => {
+      const storedData = localStorage.getItem('applicantFormData');
+      const formData = JSON.parse(storedData);
+      const savedLanguage = formData?.preferences?.language || 'en'; // Default to English if not set
+        applyLanguage(savedLanguage);
+    });
+    // Function to apply language
+function applyLanguage(lang) {
+  const translations = {
+    fr: {
+      modalTitle: "Autorisation et Décharge",
+    modalText: `
+      J'ai engagé Investigative Solutions Network Inc. (le fournisseur de services)
+      pour effectuer les enquêtes liées à ma demande de services de vérification d'antécédents. <br />
+      Les informations recueillies sur moi seront strictement confidentielles et seront
+      obtenues pour et divulguées uniquement à moi ou, uniquement avec mon consentement
+      exprès ou tel que requis ou permis par la loi.
+    `,
+    saveButton: "Enregistrer",
+    clearButton: "Effacer",
+    closeButton: "Fermer",
+       // ... existing translations ...
+    // Step 5 Translations
+    step5Title: "Confirmation",
+    step5Message: `
+      Vous avez maintenant complété les formulaires pour votre demande de vérification d'antécédents,
+      et aucune modification ne sera permise à vos données personnelles à partir de ce point.
+      <br />
+      Veuillez confirmer que vous souhaitez continuer, ou cliquez sur "Retour" si vous souhaitez
+      apporter des modifications à vos informations personnelles.
+    `,
+    proceedButton: "Procéder au traitement de la demande",
+
+    // Step 6 Translations
+    step6Title: "Vérification manuelle d'identité",
+    step6Message: `
+      Un courriel a été envoyé pour demander la vérification de votre identité. Il
+      a été envoyé à <br />
+      Canadian Bank Note Company <br />
+      À l'attention de : Emilie Capowski, Autorité contractuelle <br />Téléphone :
+      613.722-3422 poste 6097 <br />Courriel : CBNhome@certec.ca <br />Nous leur avons
+      demandé de nous aider à vérifier votre identité. S'ils ne disposent pas déjà de
+      copies de deux pièces d'identité, ils vous contacteront pour vous les demander.
+    `,
+    // startAgainButton: "Recommencer" // Uncomment if needed
+       // ... existing translations Step 4...
+    step4Title: "Décharge et Reconnaissance",
+    reasonSection: "RAISON de la vérification des antécédents",
+    reasonLabel: "Raison de votre demande",
+    reasonPlaceholder: "Raison de votre demande",
+    authorizationSection: "AUTORISATION ET DÉCHARGE pour fournir les informations obtenues lors d'une vérification des antécédents",
+    certificationText: "Je certifie que les informations fournies par moi dans cette demande sont vraies et exactes à la meilleure de ma connaissance.",
+    clickToSign: "Cliquez pour signer la décharge",
+    signatureError: "Veuillez signer la décharge avant de continuer.",
+    agreedByLabel: "Accepté par :",
+    agreedByPlaceholder: "Accepté par",
+    agreedAtLabel: "Accepté à :",
+    agreedAtPlaceholder: "Accepté à",
+    searchboxmessages:"Veuillez ajouter au moins une adresse avant de continuer.",
+       // ... existing translations for Step 3...
+    step3Title: "Veuillez entrer vos détails pour les services suivants",
+    step3Subtitle: "Cliquez sur le bouton MODIFIER pour fournir des informations spécifiques à ce service",
+    creditCheck: "Vérification de crédit à la consommation - Rapport du bureau de crédit",
+    educationVerification: "Vérification d'éducation/d'habilitation (Université de Dhaka)",
+    employmentVerification: "Emploi - Vérification (Certes Solutions Inc)",
+    employmentReference: "Emploi - Référence (Ed Escubedo)",
+    sinLabel: "Numéro d'assurance sociale :",
+    sinPlaceholder: "Numéro d'assurance sociale",
+    // Add all other field labels and placeholders for Step 3
+    institutionTypeLabel: "Type d'institution :",
+    educationInstitutionLabel: "Institution d'éducation :",
+    locationLabel: "Localisation :",
+    telephoneLabel: "Numéro de téléphone :",
+    studentNumberLabel: "Numéro d'étudiant :",
+    credentialLabel: "Habilitation(s) :",
+    credentialStatusLabel: "Statut de l'habilitation :",
+    credentialStatus: {
+      default: "Sélectionner",
+      completed: "Terminé",
+      active: "Actuellement inscrit",
+      incomplete: "Non terminé"
+    },
+    fromLabel: "De :",
+    toLabel: "À :",
+    referenceWarning1: "Veuillez fournir des informations précises, en particulier pour le nom de la référence, l'adresse e-mail et le numéro de téléphone. Des informations incorrectes peuvent entraîner des retards importants.",
+    referenceWarning2: "La référence doit être un ancien ou actuel superviseur/manager direct. Un membre de la famille, un collègue ou un ami n'est pas une référence appropriée.",
+    countryLabel: "Pays :",
+    streetNameLabel: "Nom de la rue :",
+    apartmentLabel: "Appartement :",
+    cityLabel: "Ville :",
+    provinceLabel: "Province :",
+    postalLabel: "Code postal :",
+    streetNumberLabel: "Numéro de rue :",
+      // declarttion
+      declarationTitle: "Déclaration",
+      dataerrormessage:"Veuillez entrer une date valide.",
+    noCriminalHistory: "Aucun casier judiciaire à déclarer",
+    declareCriminalHistory: "Déclarer un casier judiciaire",
+    declarationInfo: `
+      Les services de vérification des antécédents policiers signaleront des informations
+      sur les antécédents criminels. Si vous avez un casier judiciaire, vous devez
+      le déclarer afin que la vérification policière puisse confirmer vos informations.
+      Dans ce cas, veuillez sélectionner <span class="font-medium">"Déclarer un casier judiciaire"</span> ci-dessus.
+      <br />
+      D'autre part, si vous n'avez pas de casier judiciaire, veuillez
+      sélectionner <span class="font-medium">"Aucun casier judiciaire à déclarer"</span>
+      ci-dessus, puis cliquez sur <span class="font-medium">"Suivant"</span>.
+    `,
+    criminalRecordTitle: "Déclaration de casier judiciaire",
+    criminalRecordInfo: `
+      Les informations sont collectées et divulguées conformément aux lois fédérales,
+      provinciales et municipales.
+      <br /><br />
+      Une déclaration de casier judiciaire ne constitue pas un casier judiciaire
+      certifié par la GRC et peut ne pas contenir toutes les condamnations criminelles.
+      <br /><br />
+      <strong>NE DÉCLAREZ PAS LES ÉLÉMENTS SUIVANTS :</strong><br />
+      - Les absolutions inconditionnelles ou conditionnelles, conformément au
+      Code criminel, article 730.<br />
+      - Toutes les accusations pour lesquelles vous avez reçu une suspension du casier
+      judiciaire (pardon), conformément à la Loi sur le casier judiciaire.<br />
+      - Toutes les infractions commises lorsque vous étiez un « jeune » (douze ans
+      mais moins de dix-huit ans), conformément à la Loi sur le système de justice
+      pénale pour les adolescents.<br />
+      - Toutes les accusations pour lesquelles vous n'avez pas été condamné, par exemple,
+      les accusations qui ont été retirées, rejetées, ont fait l'objet d'un arrêt des
+      procédures, etc.<br />
+      - Toutes les infractions provinciales ou municipales.<br />
+      - Toutes les accusations traitées à l'extérieur du Canada.
+    `,
+    offencePlaceholder: "Infraction",
+    courtLocationPlaceholder: "Emplacement du tribunal",
+    deleteButton: "Supprimer",
+    addRowButton: "Ajouter une ligne",
+    backButton: "Retour",
+    nextButton: "Suivant",
+      // Error Messages
+      generalError: "Veuillez corriger les champs surlignés en erreur.",
+      telephoneError: "* Le téléphone doit contenir 10 chiffres.",
+      sexError: "* Veuillez sélectionner le sexe du demandeur",
+      surnameError: "* Veuillez entrer votre nom de famille.",
+      firstNameError: "* Veuillez entrer votre prénom.",
+      placeofbirthError: "* Veuillez entrer votre lieu de naissance.",
+      emailError: "* Veuillez entrer votre adresse e-mail.",
+      surnameatbirthError: "* Veuillez entrer votre nom de famille à la naissance.",
+      dobError: "* Veuillez entrer votre date de naissance.",
+      formerNameError: "* Veuillez entrer votre ancien(s) nom(s).",
+      middleNameError: "* Veuillez entrer votre deuxième prénom.",
+      
+      // Labels
+      surnameLabel: "Nom de famille :",
+      firstNameLabel: "Prénom :",
+      middleNameLabel: "Deuxième prénom :",
+      surnameatbirthLabel: "Nom de famille à la naissance :",
+      formerNameLabel: "Ancien(s) nom(s) :",
+      placeofbirthLabel: "Lieu de naissance :",
+      dobLabel: "Date de naissance :",
+      sexLabel: "Sexe :",
+      telephoneLabel: "Téléphone :",
+      emailLabel: "Adresse e-mail :",
+      
+      // Placeholders
+      surnamePlaceholder: "Nom de famille",
+      firstNamePlaceholder: "Prénom",
+      middleNamePlaceholder: "Deuxième prénom",
+      surnameatbirthPlaceholder: "Nom de naissance",
+      formerNamePlaceholder: "Ancien nom",
+      placeofbirthPlaceholder: "Lieu de naissance",
+      telephonePlaceholder: "0123456789",
+      emailPlaceholder: "adresse@email.com",
+      
+      // Buttons
+      addAddress: "Ajouter une adresse",
+      addressHistory: "Adresses des 5 dernières années",
+      nextButton: "Suivant",
+      nameElement:'ZAMAN, Mobin Mixte',
+      biogr:'Détails biographiques',
+      modalTitle: "Ajouter l'adresse du domicile",
+        generalErrorMessage: "Veuillez corriger les champs en erreur.",
+        labels: {
+            country: "Pays :",
+            otherCountry: "Autre pays :",
+            streetNumber: "Numéro de rue :",
+            streetName: "Nom de rue :",
+            apartment: "Appartement :",
+            city: "Ville :",
+            province: "Province :",
+            postalCode: "Code postal :",
+            fromDate: "De :",
+            toDate: "À :"
+        },
+        placeholders: {
+            searchAddress: "Rechercher une adresse",
+            streetNumber: "Numéro de rue",
+            streetName: "Nom de rue",
+            apartment: "Appartement",
+            city: "Ville",
+            province: "Province",
+            postalCode: "Code postal",
+            otherCountry: "Spécifiez le pays"
+        },
+        buttons: {
+            manualEntry: "Entrée manuelle",
+            cancel: "Annuler",
+            save: "Enregistrer"
+        },
+        countryOptions: {
+            canada: "Canada",
+            usa: "États-Unis",
+            other: "Autre (préciser)"
+        },
+        errors: {
+            dateRange: "La période doit couvrir au moins 5 ans."
+        }
+    }
+  }
+  if (lang === 'fr') {
+    const t = translations.fr;
+    const select = document.getElementById('credentialstatus');
+    select.innerHTML = `
+      <option value="">${t.credentialStatus.default}</option>
+      <option value="Completed">${t.credentialStatus.completed}</option>
+      <option value="Active">${t.credentialStatus.active}</option>
+      <option value="Incomplete">${t.credentialStatus.incomplete}</option>
+    `;
+    document.getElementById('fromDateError').textContent = t.dataerrormessage;
+    document.getElementById('toDateError').textContent = t.dataerrormessage;
+    document.getElementById('searchBoxMessage').textContent = t.searchboxmessages;
+    document.getElementById('saves').textContent = t.saveButton;
+    document.getElementById('clears').textContent = t.clearButton;
+    document.getElementById('closes').textContent = t.closeButton;
+    document.getElementById('myModal').querySelector('h2').textContent = t.modalTitle;
+    document.getElementById('myModal').querySelector('p').innerHTML = t.modalText;
+    const step5 = document.getElementById('step-5');
+  if (step5) {
+    step5.querySelector('h2').textContent = t.step5Title;
+    step5.querySelector('p').innerHTML = t.step5Message;
+    const proceedButton = step5.querySelector('button[onclick="goToStep(6)"]');
+    if (proceedButton) proceedButton.textContent = t.proceedButton;
+  }
+
+  // Step 6 Translations
+  const step6 = document.getElementById('step-6');
+  if (step6) {
+    step6.querySelector('h2').textContent = t.step6Title;
+    step6.querySelector('p').innerHTML = t.step6Message;
+    // Uncomment if you have the Start Again button
+    // const startAgainButton = step6.querySelector('button[onclick="goToStep(1)"]');
+    // if (startAgainButton) startAgainButton.textContent = t.startAgainButton;
+  }
+     // Apply translations to common elements
+  const step4Form = document.getElementById('step-4-form');
+  if (step4Form) {
+    // Update title
+    document.querySelector('#step-4 h2').textContent = t.step4Title;
+    
+    // Update section headers
+    const headers = step4Form.querySelectorAll('h6');
+    headers[0].textContent = t.reasonSection;
+    headers[1].textContent = t.authorizationSection;
+    
+    // Reason for request
+    const reasonLabel = step4Form.querySelector('label[for="middleName"]');
+    if (reasonLabel) reasonLabel.textContent = t.reasonLabel;
+    const reasonInput = step4Form.querySelector('#middleName');
+    if (reasonInput) reasonInput.placeholder = t.reasonPlaceholder;
+    
+    // Certification checkbox
+    const certificationLabel = step4Form.querySelector('label[for="option1"]');
+    if (certificationLabel) certificationLabel.textContent = t.certificationText;
+    
+    // Signature elements
+    const clickToSign = step4Form.querySelector('div[onclick="openmyModal()"] a');
+    if (clickToSign) clickToSign.textContent = t.clickToSign;
+    
+    const signatureError = step4Form.querySelector('#signatureError');
+    if (signatureError) signatureError.textContent = t.signatureError;
+    
+    // Agreed by/at fields
+    const agreedByLabel = step4Form.querySelector('label[for="agreedby"]');
+    if (agreedByLabel) agreedByLabel.textContent = t.agreedByLabel;
+    const agreedByInput = step4Form.querySelector('#agreedby');
+    if (agreedByInput) agreedByInput.placeholder = t.agreedByPlaceholder;
+    
+    const agreedAtLabel = step4Form.querySelector('label[for="agreedat"]');
+    if (agreedAtLabel) agreedAtLabel.textContent = t.agreedAtLabel;
+    const agreedAtInput = step4Form.querySelector('#agreedat');
+    if (agreedAtInput) agreedAtInput.placeholder = t.agreedAtPlaceholder;
+  }
+  
+ 
+    const step3Form = document.getElementById('step-3-form');
+  if (step3Form) {
+    // Update title and subtitle
+    step3Form.querySelector('h2').textContent = t.step3Title;
+    step3Form.querySelector('h3').textContent = t.step3Subtitle;
+    
+    // Update accordion titles
+    const accordionButtons = step3Form.querySelectorAll('.accordion-item button');
+    accordionButtons[0].querySelector('span').textContent = t.creditCheck;
+    accordionButtons[1].querySelector('span').textContent = t.educationVerification;
+    accordionButtons[2].querySelector('span').textContent = t.employmentVerification;
+    accordionButtons[3].querySelector('span').textContent = t.employmentReference;
+    
+    // Update form field labels and placeholders
+    const sinLabel = step3Form.querySelector('label[for="socialInsuranceNumber"]');
+    if (sinLabel) sinLabel.textContent = t.sinLabel;
+    const sinInput = step3Form.querySelector('#socialInsuranceNumber');
+    if (sinInput) sinInput.placeholder = t.sinPlaceholder;
+    
+    // Education verification section
+    const eduSection = step3Form.querySelector('#accordion-content-2');
+    if (eduSection) {
+      eduSection.querySelector('label[for="institutionType"]').textContent = t.institutionTypeLabel;
+      eduSection.querySelector('label[for="educationInstitution"]').textContent = t.educationInstitutionLabel;
+      eduSection.querySelector('#name').placeholder = t.educationInstitutionLabel;
+      eduSection.querySelector('label[for="location"]').textContent = t.locationLabel;
+      eduSection.querySelector('#location').placeholder = t.locationLabel;
+      eduSection.querySelector('label[for="telephoneNumber"]').textContent = t.telephoneLabel;
+      eduSection.querySelector('#telephoneNumber').placeholder = t.telephoneLabel;
+      eduSection.querySelector('label[for="studentNumber"]').textContent = t.studentNumberLabel;
+      eduSection.querySelector('#studentNumber').placeholder = t.studentNumberLabel;
+      eduSection.querySelector('label[for="credential"]').textContent = t.credentialLabel;
+      eduSection.querySelector('#credential').placeholder = t.credentialLabel;
+      eduSection.querySelector('label[for="credentialstatus"]').textContent = t.credentialStatusLabel;
+      eduSection.querySelector('label[for="fromDate20"]').textContent = t.fromLabel;
+      eduSection.querySelector('label[for="toDate20"]').textContent = t.toLabel;
+    }
+    
+    // Employment reference section
+    const refSection = step3Form.querySelector('#accordion-content-4');
+    if (refSection) {
+      refSection.querySelector('h6:nth-of-type(1)').textContent = t.referenceWarning1;
+      refSection.querySelector('h6:nth-of-type(2)').textContent = t.referenceWarning2;
+      refSection.querySelector('label[for="Country100-4"]').textContent = t.countryLabel;
+      refSection.querySelector('label[for="name100-4"]').textContent = t.streetNameLabel;
+      refSection.querySelector('#name100-4').placeholder = t.streetNameLabel;
+      refSection.querySelector('label[for="Apartment100-4"]').textContent = t.apartmentLabel;
+      refSection.querySelector('#Apartment100-4').placeholder = t.apartmentLabel;
+      refSection.querySelector('label[for="City100-4"]').textContent = t.cityLabel;
+      refSection.querySelector('#City100-4').placeholder = t.cityLabel;
+      refSection.querySelector('label[for="Province100-4"]').textContent = t.provinceLabel;
+      refSection.querySelector('#Province100-4').placeholder = t.provinceLabel;
+      refSection.querySelector('label[for="Postal100-4"]').textContent = t.postalLabel;
+      refSection.querySelector('#Postal100-4').placeholder = t.postalLabel;
+      refSection.querySelector('label[for="Street100-4"]').textContent = t.streetNumberLabel;
+      refSection.querySelector('#Street100-4').placeholder = t.streetNumberLabel;
+      refSection.querySelector('label[for="fromDate3"]').textContent = t.fromLabel;
+      refSection.querySelector('label[for="toDate3"]').textContent = t.toLabel;
+    }
+  }
+  
+  // Update navigation buttons
+  const backButtons = document.querySelectorAll('.back');
+  backButtons.forEach(button => {
+    button.textContent = t.backButton;
+  });
+  
+  const nextButtons = document.querySelectorAll('.next-button');
+  nextButtons.forEach(button => {
+    button.textContent = t.nextButton;
+  });
+     // Update all text elements
+     document.getElementById('dect').textContent = t.declarationTitle;
+  document.querySelector('label[for="option1"]').textContent = t.noCriminalHistory;
+  document.querySelector('label[for="option2"]').textContent = t.declareCriminalHistory;
+  document.getElementById('criminal-history').innerHTML = t.declarationInfo;
+
+  const criminalHistoryDetails = document.getElementById('criminal-history-details');
+  if (criminalHistoryDetails) {
+    criminalHistoryDetails.querySelector('h3').textContent = t.criminalRecordTitle;
+    criminalHistoryDetails.querySelector('p').innerHTML = t.criminalRecordInfo;
+    criminalHistoryDetails.querySelector('input[placeholder="Offence"]').placeholder = t.offencePlaceholder;
+    criminalHistoryDetails.querySelector('input[placeholder="Court Location"]').placeholder = t.courtLocationPlaceholder;
+    criminalHistoryDetails.querySelector('button[onclick="removeRow(this)"]').textContent = t.deleteButton;
+    criminalHistoryDetails.querySelector('button[onclick="addRow()"]').textContent = t.addRowButton;
+  }
+
+  document.querySelector('button[onclick="goToStep(1)"]').textContent = t.backButton;
+  document.getElementById('next-1').textContent = t.nextButton;
+    document.getElementById('modalTitle').textContent = t.modalTitle;
+    document.getElementById('general-error-message').textContent = t.generalErrorMessage;
+    
+    // Labels
+    document.querySelector('label[for="country1"]').textContent = t.labels.country;
+    document.querySelector('label[for="otherCountry"]').textContent = t.labels.otherCountry;
+    document.querySelector('label[for="streetNumber1"]').textContent = t.labels.streetNumber;
+    document.querySelector('label[for="street1"]').textContent = t.labels.streetName;
+    document.querySelector('label[for="apartment1"]').textContent = t.labels.apartment;
+    document.querySelector('label[for="city1"]').textContent = t.labels.city;
+    document.querySelector('label[for="province1"]').textContent = t.labels.province;
+    document.querySelector('label[for="postal1"]').textContent = t.labels.postalCode;
+    document.querySelector('label[for="fromDate1"]').textContent = t.labels.fromDate;
+    document.querySelector('label[for="toDate1"]').textContent = t.labels.toDate;
+    
+    // Placeholders
+    document.querySelector('mapbox-search-box').setAttribute('placeholder', t.placeholders.searchAddress);
+    document.getElementById('streetNumber1').placeholder = t.placeholders.streetNumber;
+    document.getElementById('street1').placeholder = t.placeholders.streetName;
+    document.getElementById('apartment1').placeholder = t.placeholders.apartment;
+    document.getElementById('city1').placeholder = t.placeholders.city;
+    document.getElementById('province1').placeholder = t.placeholders.province;
+    document.getElementById('postal1').placeholder = t.placeholders.postalCode;
+    document.getElementById('otherCountry').placeholder = t.placeholders.otherCountry;
+    
+    // Buttons
+    document.getElementById('toggleManualInput').textContent = t.buttons.manualEntry;
+    document.getElementById('cancelButton').textContent = t.buttons.cancel;
+    document.getElementById('saveButton').textContent = t.buttons.save;
+    
+    // Country dropdown options
+    const countrySelect = document.getElementById('country1');
+    if (countrySelect) {
+        countrySelect.innerHTML = `
+            <option value="Canada">${t.countryOptions.canada}</option>
+            <option value="United States">${t.countryOptions.usa}</option>
+            <option value="other">${t.countryOptions.other}</option>
+        `;
+    }
+    
+    // Error messages
+    
+    document.getElementById('dateRangeError').textContent = t.errors.dateRange;
+    // Update error messages
+    document.getElementById('biogr').textContent = t.biogr;
+    document.getElementById('nameElement').textContent = t.nameElement;
+    document.getElementById('general-error-message').textContent = t.generalError;
+    document.getElementById('telephone-error-message').textContent = t.telephoneError;
+    document.getElementById('sex-error-message').textContent = t.sexError;
+    document.getElementById('surname-error-message').textContent = t.surnameError;
+    document.getElementById('firstName-error-message').textContent = t.firstNameError;
+    document.getElementById('placeofbirth-error-message').textContent = t.placeofbirthError;
+    document.getElementById('emailaddress-error-message').textContent = t.emailError;
+    document.getElementById('surnameatbirth-error-message').textContent = t.surnameatbirthError;
+    document.getElementById('dob-error-message').textContent = t.dobError;
+    document.getElementById('formername-error-message').textContent = t.formerNameError;
+    document.getElementById('middlename-error-message').textContent = t.middleNameError;
+    
+    // Update form labels
+    document.querySelector('label[for="surname"]').textContent = t.surnameLabel;
+    document.querySelector('label[for="firstName"]').textContent = t.firstNameLabel;
+    document.querySelector('label[for="middlename"]').textContent = t.middleNameLabel;
+    document.querySelector('label[for="surnameatbirth"]').textContent = t.surnameatbirthLabel;
+    document.querySelector('label[for="formername"]').textContent = t.formerNameLabel;
+    document.querySelector('label[for="placeofbirth"]').textContent = t.placeofbirthLabel;
+    document.querySelector('label[for="dob"]').textContent = t.dobLabel;
+    document.querySelector('label[for="sex"]').textContent = t.sexLabel;
+    document.querySelector('label[for="telephone"]').textContent = t.telephoneLabel;
+    document.querySelector('label[for="emailaddress"]').textContent = t.emailLabel;
+    
+    // Update placeholders
+    document.getElementById('surname').placeholder = t.surnamePlaceholder;
+    document.getElementById('firstName').placeholder = t.firstNamePlaceholder;
+    document.getElementById('middlename').placeholder = t.middleNamePlaceholder;
+    document.getElementById('surnameatbirth').placeholder = t.surnameatbirthPlaceholder;
+    document.getElementById('formername').placeholder = t.formerNamePlaceholder;
+    document.getElementById('placeofbirth').placeholder = t.placeofbirthPlaceholder;
+    document.getElementById('telephone').placeholder = t.telephonePlaceholder;
+    document.getElementById('emailaddress').placeholder = t.emailPlaceholder;
+   
+    // Update buttons
+    document.getElementById('addbutton').textContent = t.addAddress;
+    document.getElementById('addressChange').textContent = t.addressHistory;
+    document.getElementById('nextButton').textContent = t.nextButton;
+    
+    // Update sex dropdown options
+    const sexSelect = document.getElementById('sex');
+    sexSelect.innerHTML = `
+      <option value="" disabled selected>Sélectionnez</option>
+      <option value="male">Masculin</option>
+      <option value="female">Féminin</option>
+      <option value="other">Non spécifié</option>
+    `;
+  }
+}
+      </script>
+  </body>
+</html>
