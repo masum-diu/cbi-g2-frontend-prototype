@@ -2860,18 +2860,28 @@ document.addEventListener("DOMContentLoaded", function () {
       let isValid = true;
 
       requiredFields.forEach(input => {
-        const DeclareDatemessage = document.getElementById("DeclareDate-error");
-       
-        if (!input.value.trim()) {
-          input.classList.add("border-red-500"); 
-          // Add red border for empty fields
-          DeclareDatemessage.classList.remove("hidden");
-          isValid = false;
-        } else {
-          DeclareDatemessage.classList.remove("hidden");
-          input.classList.remove("border-red-500"); // Remove red border if input is filled
-        }
-      });
+    // Identify if the input is the DeclareDate field
+    if (input.id === "DeclareDate") {
+      const DeclareDatemessage = document.getElementById("DeclareDate-error");
+
+      if (!input.value.trim()) {
+        input.classList.add("border-red-500");
+        DeclareDatemessage.classList.remove("hidden");
+        isValid = false;
+      } else {
+        input.classList.remove("border-red-500");
+        DeclareDatemessage.classList.add("hidden");
+      }
+    } else {
+      // Generic validation for other required inputs
+      if (!input.value.trim()) {
+        input.classList.add("border-red-500");
+        isValid = false;
+      } else {
+        input.classList.remove("border-red-500");
+      }
+    }
+  });
 
       // If any required field is invalid, stop form submission and alert the user
       if (!isValid) {
